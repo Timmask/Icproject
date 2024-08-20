@@ -12,9 +12,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class Communication {
@@ -24,8 +22,8 @@ public class Communication {
     private final String dealUrl="https://tootopbrass.bitrix24.kz/rest/351/g6klktx7s201zd4j/crm.deal.get.json?id=";
     private final String oneCUrl="https://icgroup.itsg.kz/webserver_ic_line_test/hs/invoice";
 
-    public String getDealById(String id) {
-        String response =restTemplate.getForObject(dealUrl+id,String.class);
+    public  Map<String,Object> getDealById(String id) {
+        Map<String,Object> response =restTemplate.getForObject(dealUrl+id,Map.class);
         System.out.println(response);
         return response;
     }
@@ -41,10 +39,10 @@ public class Communication {
         return responseEntity.getBody();
 
     }
-    public String getDealFields(){
-        ResponseEntity<JSONPObject> responseEntity  = restTemplate.exchange("https://tootopbrass.bitrix24.kz/rest/351/8tsactrruh8wfx2k/crm.deal.fields.json", HttpMethod.GET, null, new ParameterizedTypeReference<JSONPObject>() {});
+    public Map<String, Object> getDealFields(){
+        ResponseEntity<Map<String,Object>> responseEntity  = restTemplate.exchange("https://tootopbrass.bitrix24.kz/rest/351/8tsactrruh8wfx2k/crm.deal.fields.json", HttpMethod.GET, null, new ParameterizedTypeReference<Map<String,Object>>() {});
 
-        return responseEntity.getBody().toString();
+        return responseEntity.getBody();
     }
 
 
