@@ -42,7 +42,7 @@ public class BankPayment {
     private BigDecimal rate;
 
     @Column(name = "article", length = 30)
-    private String article;
+    private String cost_items;
 
     @Column(name = "tru", length = 300)
     private String tru;
