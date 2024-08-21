@@ -14,17 +14,17 @@ import java.util.Objects;
 @Aspect
 public class LoggingAspect {
 
-    @Before("execution(* com.temirlan.spring.mvc.icproject.controller.Controller.*(..))")
-    public void logBefore(JoinPoint joinPoint) {
-        String methodName = joinPoint.getSignature().getName();
-        Object[] args = joinPoint.getArgs();
-        MethodSignature methodSignature= (MethodSignature) joinPoint.getSignature();
-        PostMapping post =methodSignature.getMethod().getAnnotation(PostMapping.class);
-        System.out.println( "url:" + post.value()[0].toString() );
-        System.out.println(methodName);
-        for (Object arg : args) {
-            System.out.println(arg.toString());
-        }
-
-    }
+//    @Before("execution(* com.temirlan.spring.mvc.icproject.controller.Controller.*(..))")
+//    public void logBefore(JoinPoint joinPoint) {
+//        String methodName = joinPoint.getSignature().getName();
+//        Object[] args = joinPoint.getArgs();
+//        MethodSignature methodSignature= (MethodSignature) joinPoint.getSignature();
+//        PostMapping post =methodSignature.getMethod().getAnnotation(PostMapping.class);
+//        System.out.println( "url:" + post.value()[0].toString() );
+//        System.out.println(methodName);
+//        for (Object arg : args) {
+//            System.out.println(arg.toString());
+//        }
+//
+//    }
 }
