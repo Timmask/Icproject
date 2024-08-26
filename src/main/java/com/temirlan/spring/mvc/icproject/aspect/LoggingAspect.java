@@ -1,30 +1,40 @@
 package com.temirlan.spring.mvc.icproject.aspect;
 
+import com.temirlan.spring.mvc.icproject.entity.RequestLog;
+import com.temirlan.spring.mvc.icproject.repository.RequestLogRepository;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.Objects;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.Date;
 
 @Component
 @Aspect
 public class LoggingAspect {
 
-//    @Before("execution(* com.temirlan.spring.mvc.icproject.controller.Controller.*(..))")
-//    public void logBefore(JoinPoint joinPoint) {
-//        String methodName = joinPoint.getSignature().getName();
-//        Object[] args = joinPoint.getArgs();
-//        MethodSignature methodSignature= (MethodSignature) joinPoint.getSignature();
-//        PostMapping post =methodSignature.getMethod().getAnnotation(PostMapping.class);
-//        System.out.println( "url:" + post.value()[0].toString() );
-//        System.out.println(methodName);
-//        for (Object arg : args) {
-//            System.out.println(arg.toString());
-//        }
-//
-//    }
+    @Autowired
+    private RequestLogRepository requestLogRepository;
+
+    @Before("@annotation(org.springframework.web.bind.annotation.PostMapping)")
+    public void logBefore(JoinPoint joinPoint) {
+
+        MethodSignature methodSignature= (MethodSignature) joinPoint.getSignature();
+        RequestLog requestLog = new RequestLog();
+        Object[] args = joinPoint.getArgs();
+        requestLog.setBody(args[0].toString());
+        PostMapping post =methodSignature.getMethod().getAnnotation(PostMapping.class);
+        requestLog.setEndpoint( "http://localhost:8080" + post.value()[0].toString());
+        Object object=new Object();
+        requestLog.setRun_id( String.valueOf(object.hashCode()));
+//        long now = System.currentTimeMillis();
+//        Date date = new Date(now);
+//        requestLog.setTimestamp(date.toInstant());
+        requestLogRepository.save(requestLog);
+    }
 }

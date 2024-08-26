@@ -3,10 +3,13 @@ package com.temirlan.spring.mvc.icproject.service;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.temirlan.spring.mvc.icproject.Operations;
 import com.temirlan.spring.mvc.icproject.entity.Accounting;
+import com.temirlan.spring.mvc.icproject.entity.Deal;
 import com.temirlan.spring.mvc.icproject.oneC.Consignee;
 import com.temirlan.spring.mvc.icproject.oneC.Consignor;
 import com.temirlan.spring.mvc.icproject.oneC.Invoice;
+import com.temirlan.spring.mvc.icproject.pojo.Implementation;
 import com.temirlan.spring.mvc.icproject.repository.AccountingRepository;
+import com.temirlan.spring.mvc.icproject.repository.DealRepository;
 import com.temirlan.spring.mvc.icproject.repository.JDBCRepository;
 import com.temirlan.spring.mvc.icproject.restclient.Communication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ public class InvoiceServiceImp implements InvoiceService{
 
     @Autowired
     private JDBCRepository jdbcRepository;
+
+    @Autowired
+    public DealRepository dealRepository;
 
     @Autowired
     private AccountingRepository accountingRepository;
@@ -56,4 +62,11 @@ public class InvoiceServiceImp implements InvoiceService{
         accountingRepository.save(accounting);
     }
 
+    public void saveDeal(Deal deal){
+        dealRepository.save(deal);
+    }
+
+    public List<Implementation> getImplementationsList(Integer count){
+       return jdbcRepository.getAllImplementation(count);
+    }
 }

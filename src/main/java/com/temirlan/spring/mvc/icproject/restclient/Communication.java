@@ -24,7 +24,6 @@ public class Communication {
 
     public  Map<String,Object> getDealById(String id) {
         Map<String,Object> response =restTemplate.getForObject(dealUrl+id,Map.class);
-        System.out.println(response);
         return response;
     }
 
