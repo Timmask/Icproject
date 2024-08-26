@@ -6,7 +6,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Implementation {
+public class ImplementationBi {
     private Integer id;
     private String stage;
     private Double opportunity;
@@ -32,7 +32,7 @@ public class Implementation {
     private Double returnDuty;
     private String clientCategory;
 
-    public Implementation(Integer id, String stage, Double opportunity, String currency, String userName, String companyName, String ipName, String address, String companyExecutor, Double percentRate, String city, Double area, Double sumContract, Double salesForIp, Double fine, String ndsIcCompany, String ndsIpCompany, Integer salesFact, Double addWork, String monthOfAccruals, String responsiblePerson, Integer countOpu, Double returnDuty, String clientCategory) {
+    public ImplementationBi(Integer id, String stage, Double opportunity, String currency, String userName, String companyName, String ipName, String address, String companyExecutor, Double percentRate, String city, Double area, Double sumContract, Double salesForIp, Double fine, String ndsIcCompany, String ndsIpCompany, Integer salesFact, Double addWork, String monthOfAccruals, String responsiblePerson, Integer countOpu, Double returnDuty, String clientCategory) {
         this.id = id;
         this.stage = stage;
         this.opportunity = opportunity;

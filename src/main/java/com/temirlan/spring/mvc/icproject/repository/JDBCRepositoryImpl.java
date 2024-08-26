@@ -3,19 +3,16 @@ package com.temirlan.spring.mvc.icproject.repository;
 import com.temirlan.spring.mvc.icproject.mapper.ConsigneeMapper;
 import com.temirlan.spring.mvc.icproject.mapper.ConsignorMapper;
 import com.temirlan.spring.mvc.icproject.oneC.Consignee;
-import com.temirlan.spring.mvc.icproject.oneC.ConsigneeData;
 import com.temirlan.spring.mvc.icproject.oneC.Consignor;
-import com.temirlan.spring.mvc.icproject.pojo.Implementation;
+import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
+import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
+import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @Repository
 public class JDBCRepositoryImpl implements JDBCRepository{
@@ -46,7 +43,7 @@ public class JDBCRepositoryImpl implements JDBCRepository{
     }
 
 
-    public List<Implementation> getAllImplementation(Integer count ) {
+    public List<ImplementationBi> getAllImplementation(Integer count ) {
         String sql = "select ds.\"name\" as \"Стадия сделки\" , d.opportunity  \"Сумма\"  , d.currency_id as \"Валюта\" , u.last_name || '' || u.\"name\" as \"Ответственный\"  ,\n" +
                 "c.title as \"Компания\" , d1.value \"Наименование ИП обновленный\" , d2.value \"Адрес объекта\" , d3.value as \"Компания исполнитель IC\" ,\n" +
                 " d4.value as \"Город\" , d.UF_CRM_1707724024179 as \"Площадь\" , d.UF_CRM_1708313343142 as \"Сумма договора по объекту\", d.UF_CRM_1708321214833 as \"Реализация для ИП\"  , d.UF_CRM_1708334626443 \"Сумма штрафа\",\n" +
@@ -81,7 +78,7 @@ public class JDBCRepositoryImpl implements JDBCRepository{
         return jdbcTemplate.query(
                 sql,
                 (rs, rowNum) ->
-                        new Implementation(
+                        new ImplementationBi(
                                 rs.getInt("id"),
                                 rs.getString("Стадия сделки"),
                                 rs.getDouble("Сумма"),
@@ -111,5 +108,86 @@ public class JDBCRepositoryImpl implements JDBCRepository{
         );
     }
 
+    public List<PayrollFundBi> getPayrollFundList(Integer count ) {
+
+        String sql="select d.external_id  \"Id\",d.title \"Название сделки\", ds.\"name\" \"Стадия сделки\" , d.OPPORTUNITY  \"Сумма\" , d.currency_id \"Валюта\" , d.UF_CRM_1707146163970  \"Период начисления расхода\" ,\n" +
+                "d1.value   \"Статья ФОТ\" , d2.value \"Подразделение\" from deal d\n" +
+                "left join dealcategory_stage ds \n" +
+                "on ds.status_id ::varchar= d.stage_id \n" +
+                "left join deal_enum_UF_CRM_1707384877989 d1\n" +
+                "on d1.external_id::varchar=d.UF_CRM_1707384877989\n" +
+                "left join deal_enum_UF_CRM_1707385028092 d2 \n" +
+                "on d2.external_id::varchar=d.UF_CRM_1707385028092 \n" +
+                "where ds.\"name\" like '%Согласование%'";
+        if ( count > 0) {
+            sql += " limit " + count.toString();
+        }
+        return jdbcTemplate.query(sql,(rs, rowNum) ->
+                new PayrollFundBi(rs.getInt("Id"),
+                                rs.getString("Название сделки"),
+                                rs.getString("Стадия сделки"),
+                                rs.getDouble("Сумма"),
+                                rs.getString("Валюта"),
+                                rs.getString("Период начисления расхода"),
+                                rs.getString("Статья ФОТ"),
+                                rs.getString("Подразделение")
+                ));
+
 
     }
+
+    public List<InvoiceBi> getInvoicesList(Integer count) {
+        String sql ="select d.external_id \"id\", d.title \"title\" , dt.value \"type\" , ds.\"name\" \"stage\",opportunity \"sum\" , d.currency_id \"cur\", concat(u.last_name , ' ' , u.\"name\") as  \"responsible\" , concat(u.last_name , ' ' , u.\"name\") as  \"author\" ,d.\"comments\" \"comment\" , d1.value \"expence_item\" \n" +
+                ",d2.value \"ic_company\" ,d.UF_CRM_1707145101392 \"check\", d3.value \"type_product\" , d4.value \"accrual_article\" , d5.value \"in_budget\" , d6.value \"document\",\n" +
+                "d.UF_CRM_1707146079310 \"supplier\" , d.UF_CRM_1707146135461 \"estimated_payment_date\" , d.UF_CRM_1707146163970 \"accrual_date\" , d.UF_CRM_1707452385 \"pay_for\" , d7.value \"project\" from deal d \n" +
+                "left join deal_enum_uf_crm_type_id dt \n" +
+                "on dt.external_id::varchar=d.uf_crm_type_id \n" +
+                "left join dealcategory_stage ds \n" +
+                "on ds.status_id::varchar= d.stage_id \n" +
+                "left join \"user\" u \n" +
+                "on d.assigned_by_id = u.external_id::varchar\n" +
+                "left join deal_enum_UF_CRM_1713357357 d1\n" +
+                "on d1.external_id::varchar = d.UF_CRM_1713357357\n" +
+                "left join deal_enum_UF_CRM_1707120091678 d2 \n" +
+                "on d2.external_id::varchar=d.UF_CRM_1707120091678\n" +
+                "left join deal_enum_UF_CRM_1707145189813 d3\n" +
+                "on d3.external_id::varchar=d.UF_CRM_1707145189813 \n" +
+                "left join deal_enum_UF_CRM_1707145268405 d4 \n" +
+                "on d4.external_id::varchar=d.UF_CRM_1707145268405\n" +
+                "left join deal_enum_UF_CRM_1707145811011 d5 \n" +
+                "on d5.external_id ::varchar=UF_CRM_1707145811011\n" +
+                "left join deal_enum_UF_CRM_1707145947108 d6 \n" +
+                "on d6.external_id ::varchar=UF_CRM_1707145947108\n" +
+                "left join deal_enum_UF_CRM_1722921968 d7\n" +
+                "on d7.external_id::varchar=UF_CRM_1722921968";
+        if ( count > 0) {
+            sql += " limit " + count.toString();
+        }
+
+        return jdbcTemplate.query(sql,(rs, rowNum) ->
+                new InvoiceBi(rs.getInt(1),
+                              rs.getString(2),
+                              rs.getString(3),
+                            rs.getString(4),
+                            rs.getDouble(5),
+                            rs.getString(6),
+                            rs.getString(7),
+                            rs.getString(8),
+                            rs.getString(9),
+                            rs.getString(10),
+                            rs.getString(11),
+                            rs.getString(12),
+                            rs.getString(13),
+                            rs.getString(14),
+                            rs.getString(15),
+                            rs.getString(16),
+                            rs.getString(17),
+                            rs.getString(18),
+                            rs.getString(19),
+                            rs.getString(20),
+                            rs.getString(21)));
+    }
+
+}
+
+

@@ -1,13 +1,14 @@
 package com.temirlan.spring.mvc.icproject.service;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.temirlan.spring.mvc.icproject.Operations;
 import com.temirlan.spring.mvc.icproject.entity.Accounting;
 import com.temirlan.spring.mvc.icproject.entity.Deal;
 import com.temirlan.spring.mvc.icproject.oneC.Consignee;
 import com.temirlan.spring.mvc.icproject.oneC.Consignor;
 import com.temirlan.spring.mvc.icproject.oneC.Invoice;
-import com.temirlan.spring.mvc.icproject.pojo.Implementation;
+import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
+import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
+import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
 import com.temirlan.spring.mvc.icproject.repository.AccountingRepository;
 import com.temirlan.spring.mvc.icproject.repository.DealRepository;
 import com.temirlan.spring.mvc.icproject.repository.JDBCRepository;
@@ -66,7 +67,15 @@ public class InvoiceServiceImp implements InvoiceService{
         dealRepository.save(deal);
     }
 
-    public List<Implementation> getImplementationsList(Integer count){
+    public List<ImplementationBi> getImplementationsList(Integer count){
        return jdbcRepository.getAllImplementation(count);
+    }
+    public List<PayrollFundBi> getPayrollFundList(Integer count ){
+        return jdbcRepository.getPayrollFundList(count);
+    }
+
+    @Override
+    public List<InvoiceBi> getInvoicesList(Integer count) {
+        return jdbcRepository.getInvoicesList(count);
     }
 }

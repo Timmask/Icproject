@@ -1,13 +1,10 @@
 package com.temirlan.spring.mvc.icproject.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.temirlan.spring.mvc.icproject.entity.Accounting;
 import com.temirlan.spring.mvc.icproject.entity.BankPayment;
-import com.temirlan.spring.mvc.icproject.oneC.Consignee;
-import com.temirlan.spring.mvc.icproject.oneC.Consignor;
-import com.temirlan.spring.mvc.icproject.oneC.Invoice;
-import com.temirlan.spring.mvc.icproject.pojo.Implementation;
-import com.temirlan.spring.mvc.icproject.repository.AccountingRepository;
+import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
+import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
+import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
 import com.temirlan.spring.mvc.icproject.repository.BankPaymentRepository;
 import com.temirlan.spring.mvc.icproject.service.InvoiceService;
 import org.slf4j.Logger;
@@ -66,13 +63,21 @@ public class Controller {
     }
 
     @GetMapping("/all-implementation")
-    public List<Implementation> getAllImplementation(@RequestParam Integer count) {
+    public List<ImplementationBi> getAllImplementation(@RequestParam Integer count) {
 
         return invoiceService.getImplementationsList(count);
     }
 
     @GetMapping("/all-implementations")
-    public List<Implementation> getAllImplementation() {
+    public List<ImplementationBi> getAllImplementation() {
         return invoiceService.getImplementationsList(0);
         }
+    @GetMapping("/fot-projects")
+    public List<PayrollFundBi> getFotProjects(){
+        return invoiceService.getPayrollFundList(0);
+    }
+    @GetMapping("/invoices-bi")
+    public List<InvoiceBi> getInvoicesList(){
+        return invoiceService.getInvoicesList(0);
+    }
 }
