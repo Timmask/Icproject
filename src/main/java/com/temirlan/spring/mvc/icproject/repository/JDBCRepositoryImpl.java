@@ -69,6 +69,9 @@ public class JDBCRepositoryImpl implements JDBCRepository{
                 "                on d7.external_id::varchar=d.UF_CRM_19_1712142579982\n" +
                 "                left join company_enum_UF_CRM_1719220165391 c1\n" +
                 "                on c1.external_id::varchar=c.UF_CRM_1719220165391\n";
+        if ( count > 0) {
+            sql += " limit " + count.toString();
+        }
         return jdbcTemplate.query(
                 sql,
                 (rs, rowNum) ->
