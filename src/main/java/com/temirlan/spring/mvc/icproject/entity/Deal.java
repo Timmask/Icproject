@@ -1,9 +1,6 @@
 package com.temirlan.spring.mvc.icproject.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -213,9 +210,12 @@ public class Deal {
     private String PARENT_ID_132;
 
     
-    
-    @Column(name = "uf_crm_1712228470")
-    private String UF_CRM_1712228470;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "uf_crm_1712228470",foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT))
+    private DealEnumUfCrm1712228470 ipName;
+//    @Column(name = "uf_crm_1712228470")
+//    private String UF_CRM_1712228470;
 
     
     

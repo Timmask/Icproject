@@ -1,11 +1,10 @@
 package com.temirlan.spring.mvc.icproject.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,6 +14,9 @@ public class DealEnumUfCrm1712228470 {
     @Id
     @Column(name = "external_id")
     private Integer externalId;
+
+    @OneToMany(mappedBy = "ipName",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Deal> deals;
 
     @Column(name = "value")
     private String value;

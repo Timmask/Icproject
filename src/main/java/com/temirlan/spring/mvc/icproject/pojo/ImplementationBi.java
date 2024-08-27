@@ -24,7 +24,7 @@ public class ImplementationBi {
     private Double fine;
     private String ndsIcCompany;
     private String ndsIpCompany;
-    private Integer salesFact;
+    private Long salesFact;
     private Double addWork;
     private String monthOfAccruals;
     private String responsiblePerson;
@@ -32,7 +32,7 @@ public class ImplementationBi {
     private Double returnDuty;
     private String clientCategory;
 
-    public ImplementationBi(Integer id, String stage, Double opportunity, String currency, String userName, String companyName, String ipName, String address, String companyExecutor, Double percentRate, String city, Double area, Double sumContract, Double salesForIp, Double fine, String ndsIcCompany, String ndsIpCompany, Integer salesFact, Double addWork, String monthOfAccruals, String responsiblePerson, Integer countOpu, Double returnDuty, String clientCategory) {
+    public ImplementationBi(Integer id, String stage, Double opportunity, String currency, String userName, String companyName, String ipName, String address, String companyExecutor, Double percentRate, String city, Double area, Double sumContract, Double salesForIp, Double fine, String ndsIcCompany, String ndsIpCompany, Long salesFact, Double addWork, String monthOfAccruals, String responsiblePerson, Integer countOpu, Double returnDuty, String clientCategory) {
         this.id = id;
         this.stage = stage;
         this.opportunity = opportunity;
