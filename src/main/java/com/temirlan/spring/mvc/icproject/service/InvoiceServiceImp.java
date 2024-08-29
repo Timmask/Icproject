@@ -2,6 +2,7 @@ package com.temirlan.spring.mvc.icproject.service;
 
 import com.temirlan.spring.mvc.icproject.Operations;
 import com.temirlan.spring.mvc.icproject.entity.Accounting;
+import com.temirlan.spring.mvc.icproject.entity.BankPayment;
 import com.temirlan.spring.mvc.icproject.entity.Deal;
 import com.temirlan.spring.mvc.icproject.oneC.Consignee;
 import com.temirlan.spring.mvc.icproject.oneC.Consignor;
@@ -10,6 +11,7 @@ import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
 import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
 import com.temirlan.spring.mvc.icproject.repository.AccountingRepository;
+import com.temirlan.spring.mvc.icproject.repository.BankPaymentRepository;
 import com.temirlan.spring.mvc.icproject.repository.DealRepository;
 import com.temirlan.spring.mvc.icproject.repository.JDBCRepository;
 import com.temirlan.spring.mvc.icproject.restclient.Communication;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +27,6 @@ import java.util.Map;
 public class InvoiceServiceImp implements InvoiceService{
     @Autowired
     public Operations operations;
-
     @Autowired
     public Communication communication;
 
@@ -36,6 +38,9 @@ public class InvoiceServiceImp implements InvoiceService{
 
     @Autowired
     private AccountingRepository accountingRepository;
+
+    @Autowired
+    private BankPaymentRepository bankPaymentRepository;
 
     public Invoice createInvoice(String message) throws HttpServerErrorException {
         String id=operations.extractId(message);
@@ -63,6 +68,14 @@ public class InvoiceServiceImp implements InvoiceService{
         accountingRepository.save(accounting);
     }
 
+    @Override
+    public void saveBankPayment(ArrayList<BankPayment> bankPayment) {
+//        for(BankPayment bankPayment1:bankPayment){
+//            bankPaymentRepository.save(bankPayment1);
+            bankPaymentRepository.saveAll(bankPayment);
+//        }
+    }
+
     public void saveDeal(Deal deal){
         dealRepository.save(deal);
     }
@@ -78,4 +91,6 @@ public class InvoiceServiceImp implements InvoiceService{
     public List<InvoiceBi> getInvoicesList(Integer count) {
         return jdbcRepository.getInvoicesList(count);
     }
+
+
 }

@@ -3,6 +3,7 @@ package com.temirlan.spring.mvc.icproject.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.ColumnTransformer;
 
 import java.time.Instant;
 
@@ -209,13 +210,15 @@ public class Deal {
     @Column(name = "parent_id_132")
     private String PARENT_ID_132;
 
-    
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "uf_crm_1712228470",foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT))
-    private DealEnumUfCrm1712228470 ipName;
-//    @Column(name = "uf_crm_1712228470")
-//    private String UF_CRM_1712228470;
+//    @ManyToOne
+//    @JoinColumn(name = "uf_crm_1712228470", insertable = false, updatable = false)
+//    @ColumnTransformer(forColumn = "uf_crm_1712228470", read = "cast(uf_crm_1712228470 as bigint)")
+//    private DealEnumUfCrm1712228470 ipName;
+
+    @Column(name = "uf_crm_1712228470")
+//    @ColumnTransformer(read="uf_crm_1712228470::INT")
+    private Integer UF_CRM_1712228470;
 
     
     

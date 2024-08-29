@@ -24,7 +24,8 @@ public class Tasker {
 //    @Scheduled(cron = "0 * * * * *")
 //    public void getDeal(){
 //        Deal deal=dealRepository.getReferenceById(162143);
-//        System.out.println(deal.getIpName());
+////        System.out.println(deal.getUF_CRM_1712228470());
+////        System.out.println(deal.getIpName());
 //
 //    }
 }

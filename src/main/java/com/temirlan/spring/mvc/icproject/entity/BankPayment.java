@@ -1,9 +1,9 @@
 package com.temirlan.spring.mvc.icproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 
 @Getter
@@ -23,11 +23,29 @@ public class BankPayment {
     @Column(name = "number_document", length = 50)
     private String numberDocument;
 
-    @Column(name = "sender", length = 200)
-    private String sender;
+    @Column(name = "sender_name", length = 200)
+    private String senderName;
 
-    @Column(name = "receiver", length = 200)
-    private String receiver;
+    @Column(name = "sender_bin", length = 200)
+    private String senderBIN;
+
+    @Column(name = "sender_iik", length = 200)
+    private String senderIIK;
+
+    @Column(name = "sender_bik", length = 200)
+    private String senderBIK;
+
+    @Column(name = "receiver_name", length = 200)
+    private String receiverName;
+
+    @Column(name = "receiver_bin", length = 200)
+    private String receiverBIN;
+
+    @Column(name = "receiver_iik", length = 200)
+    private String receiverIIK;
+
+    @Column(name = "receiver_bik", length = 200)
+    private String receiverBIK;
 
     @Column(name = "debit")
     private BigDecimal debit;

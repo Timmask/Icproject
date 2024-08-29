@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,7 @@ public class Controller {
     @Autowired
     private InvoiceService invoiceService;
 
-    @Autowired
-    BankPaymentRepository bankPaymentRepository;
+
 
     @GetMapping("/")
     public String index() {
@@ -45,7 +45,7 @@ public class Controller {
     }
 
     @PostMapping("/managment-accounting")
-    public Accounting managmentAccounting(@RequestBody Accounting accounting) {
+    public Accounting managmentAccounting(@RequestBody  Accounting accounting) {
         String message="";
         try {
             invoiceService.saveAccounting(accounting);
@@ -56,14 +56,20 @@ public class Controller {
         return accounting;
     }
 
-    @GetMapping("/bank-pay")
-    public List<BankPayment> getBankPayment() {
-
-        return bankPaymentRepository.findAll();
+    @PostMapping("/bank-payments")
+    public String bankPayments(@RequestBody ArrayList<BankPayment> bankPayments) {
+        String message="";
+        try {
+            invoiceService.saveBankPayment(bankPayments);
+            message="Ok";
+        }catch (Exception e){
+            message=e.toString();
+        }
+        return message;
     }
 
     @GetMapping("/all-implementation")
-    public List<ImplementationBi> getAllImplementation(@RequestParam Integer count) {
+    public List<ImplementationBi> getAllImplementation(@RequestParam(required = false) Integer count) {
 
         return invoiceService.getImplementationsList(count);
     }
@@ -81,3 +87,4 @@ public class Controller {
         return invoiceService.getInvoicesList(0);
     }
 }
+
