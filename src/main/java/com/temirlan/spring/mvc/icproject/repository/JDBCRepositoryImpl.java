@@ -130,7 +130,6 @@ public class JDBCRepositoryImpl implements JDBCRepository{
                                 rs.getString("Подразделение")
                 ));
 
-
     }
 
     public List<InvoiceBi> getInvoicesList(Integer count) {

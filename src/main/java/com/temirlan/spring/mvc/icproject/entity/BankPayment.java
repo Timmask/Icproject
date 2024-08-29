@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
 import java.math.BigDecimal;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "bank_payment")
+@ToString
 public class BankPayment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bank_payment_id_gen")
