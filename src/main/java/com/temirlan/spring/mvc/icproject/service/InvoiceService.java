@@ -15,7 +15,8 @@ public interface InvoiceService {
     public Invoice createInvoice(String message);
     public Map<String,Object> getDealFields();
     public void saveAccounting(Accounting accounting);
-    public void saveBankPayment(ArrayList<BankPayment> bankPayment);
+    public ArrayList<BankPayment> saveBankPayment(ArrayList<BankPayment> bankPayment);
+    public ArrayList<BankPayment> deteleBankPayments(ArrayList<BankPayment> bankPayment);
     public List<ImplementationBi> getImplementationsList(Integer count);
     public List<PayrollFundBi> getPayrollFundList(Integer count );
     public List<InvoiceBi> getInvoicesList(Integer count);

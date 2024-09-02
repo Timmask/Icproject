@@ -1,5 +1,6 @@
 package com.temirlan.spring.mvc.icproject.config;
 
+import com.temirlan.spring.mvc.icproject.HttpLoggingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,14 +16,15 @@ public class MyConfig {
         return new RestTemplate();
     }
     @Bean
-    public CommonsRequestLoggingFilter requestLoggingFilter() {
-        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
+    public HttpLoggingFilter requestLoggingFilter() {
+        HttpLoggingFilter loggingFilter = new HttpLoggingFilter();
         loggingFilter.setIncludeClientInfo(true);
         loggingFilter.setIncludeQueryString(true);
         loggingFilter.setIncludePayload(true);
         loggingFilter.setMaxPayloadLength(64000);
         loggingFilter.setIncludeHeaders(true);
         return loggingFilter;
+
     }
 
 }

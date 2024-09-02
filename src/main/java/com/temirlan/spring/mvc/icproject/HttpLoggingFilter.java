@@ -1,34 +1,19 @@
-//package com.temirlan.spring.mvc.icproject;
-//
-//import jakarta.servlet.FilterChain;
-//import jakarta.servlet.ServletException;
-//import jakarta.servlet.http.HttpServletRequest;
-//import jakarta.servlet.http.HttpServletResponse;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.stereotype.Component;
-//import org.springframework.web.filter.OncePerRequestFilter;
-//import org.springframework.web.util.ContentCachingRequestWrapper;
-//import org.springframework.web.util.ContentCachingResponseWrapper;
-//import java.io.IOException;
-//
-//@Slf4j
-//@Component
-//public class HttpLoggingFilter extends OncePerRequestFilter {
-//    @Override
-//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-//        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
-//        ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
-//
-//        filterChain.doFilter(requestWrapper, responseWrapper);
-//        logResponse(requestWrapper, responseWrapper);
-//    }
-//
-//    private void logResponse(ContentCachingRequestWrapper requestWrapper, ContentCachingResponseWrapper responseWrapper) throws IOException {
-//        log.info("Request {}", new String(requestWrapper.getContentAsByteArray()));
-//        log.info("Response {}", new String(responseWrapper.getContentAsByteArray()));
-//        responseWrapper.copyBodyToResponse();
-//    }
-//
-//
-//
-//}
+package com.temirlan.spring.mvc.icproject;
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.filter.AbstractRequestLoggingFilter;
+
+public class HttpLoggingFilter extends AbstractRequestLoggingFilter {
+
+
+    @Override
+    protected void beforeRequest(HttpServletRequest request, String message) {
+        System.out.println(request.getRequestURL());
+        System.out.println(message);
+    }
+
+    @Override
+    protected void afterRequest(HttpServletRequest request, String message) {
+        System.out.println(message);
+    }
+}

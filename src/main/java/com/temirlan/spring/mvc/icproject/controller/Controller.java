@@ -57,13 +57,36 @@ public class Controller {
     }
 
     @PostMapping("/bank-payments")
-    public String bankPayments(@RequestBody ArrayList<BankPayment> bankPayments) {
-        String message="";
+    public Map<String,Object> bankPaymentsAdd(@RequestBody ArrayList<BankPayment> bankPayments) {
+        Map<String,Object> message = new HashMap<>();
         try {
-            invoiceService.saveBankPayment(bankPayments);
-            message="Ok";
+            ArrayList<BankPayment> response= invoiceService.saveBankPayment(bankPayments);
+            message.put("result",response);
         }catch (Exception e){
-            message=e.toString();
+            message.put("result",e.toString());
+        }
+        return message;
+    }
+
+    @PutMapping("/bank-payments")
+    public Map<String,Object> bankPaymentsUpd(@RequestBody ArrayList<BankPayment> bankPayments) {
+        Map<String,Object> message = new HashMap<>();
+        try {
+            ArrayList<BankPayment> response= invoiceService.saveBankPayment(bankPayments);
+            message.put("result",response);
+        }catch (Exception e){
+            message.put("result",e.toString());
+        }
+        return message;
+    }
+    @DeleteMapping("/bank-payments")
+    public Map<String,Object> bankPaymentsDlt(@RequestBody ArrayList<BankPayment> bankPayments) {
+        Map<String,Object> message = new HashMap<>();
+        try {
+            ArrayList<BankPayment> response= invoiceService.deteleBankPayments(bankPayments);
+            message.put("result",response);
+        }catch (Exception e){
+            message.put("result",e.toString());
         }
         return message;
     }

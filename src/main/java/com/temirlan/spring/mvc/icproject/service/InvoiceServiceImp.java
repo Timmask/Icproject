@@ -55,8 +55,6 @@ public class InvoiceServiceImp implements InvoiceService{
             String invoiceRes= communication.createInvoice(invoice);
             System.out.println(invoiceRes);
         }
-
-
          return invoice;
     }
     public Map<String, Object> getDealFields(){
@@ -64,17 +62,22 @@ public class InvoiceServiceImp implements InvoiceService{
     }
 
     public void saveAccounting(Accounting accounting){
-
         accountingRepository.save(accounting);
     }
 
     @Override
-    public void saveBankPayment(ArrayList<BankPayment> bankPayment) {
-//        for(BankPayment bankPayment1:bankPayment){
-//            bankPaymentRepository.save(bankPayment1);
+    public ArrayList<BankPayment> saveBankPayment(ArrayList<BankPayment> bankPayment) {
             bankPaymentRepository.saveAll(bankPayment);
-//        }
+            return bankPayment;
+
     }
+
+    @Override
+    public ArrayList<BankPayment> deteleBankPayments(ArrayList<BankPayment> bankPayment) {
+        bankPaymentRepository.deleteAllInBatch(bankPayment);
+        return bankPayment;
+    }
+
 
     public void saveDeal(Deal deal){
         dealRepository.save(deal);
