@@ -1,9 +1,9 @@
 package com.temirlan.spring.mvc.icproject.service;
 
+import com.temirlan.spring.mvc.icproject.Deal;
 import com.temirlan.spring.mvc.icproject.Operations;
 import com.temirlan.spring.mvc.icproject.entity.Accounting;
 import com.temirlan.spring.mvc.icproject.entity.BankPayment;
-import com.temirlan.spring.mvc.icproject.entity.Deal;
 import com.temirlan.spring.mvc.icproject.oneC.Consignee;
 import com.temirlan.spring.mvc.icproject.oneC.Consignor;
 import com.temirlan.spring.mvc.icproject.oneC.Invoice;
@@ -50,6 +50,7 @@ public class InvoiceServiceImp implements InvoiceService{
         if ( dealres.get("STAGE_ID") == "C69:UC_MLMLU7" && dealres.get("CATEGORY_ID")=="69"){
             Consignor consignor =jdbcRepository.getConsignorInfo(id);
             Consignee consignee=jdbcRepository.getConsigneeInfo(id);
+
             invoice.setConsignee(consignee);
             invoice.setConsignor(consignor);
             String invoiceRes= communication.createInvoice(invoice);

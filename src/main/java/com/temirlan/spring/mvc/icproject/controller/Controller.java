@@ -7,11 +7,13 @@ import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
 import com.temirlan.spring.mvc.icproject.repository.BankPaymentRepository;
 import com.temirlan.spring.mvc.icproject.service.InvoiceService;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +29,10 @@ public class Controller {
 
 
 
+    @SneakyThrows
     @GetMapping("/")
     public String index() {
-        return "Welcome  Temirlan";
+        return Inet4Address.getLocalHost().getHostAddress();
     }
     @PostMapping("/webhook")
     public Map apiWebhook(@RequestBody String message){

@@ -1,15 +1,9 @@
 package com.temirlan.spring.mvc.icproject;
 
-import com.temirlan.spring.mvc.icproject.entity.Deal;
-import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
 import com.temirlan.spring.mvc.icproject.repository.DealRepository;
 import com.temirlan.spring.mvc.icproject.repository.JDBCRepository;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class Tasker {

@@ -12,7 +12,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="req_log",schema = "log")
+@Table(name="request_log",schema = "log")
 public class RequestLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

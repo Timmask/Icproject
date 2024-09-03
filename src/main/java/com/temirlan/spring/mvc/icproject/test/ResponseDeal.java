@@ -1,7 +1,7 @@
 package com.temirlan.spring.mvc.icproject.test;
 
 
-import com.temirlan.spring.mvc.icproject.entity.Deal;
+import com.temirlan.spring.mvc.icproject.Deal;
 import lombok.*;
 
 @Getter
