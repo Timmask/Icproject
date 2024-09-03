@@ -48,7 +48,7 @@ public class InvoiceServiceImp implements InvoiceService{
         Map<String,Object> deal=communication.getDealById(id);
         Map<String,Object> dealres = (Map<String, Object>) deal.get("result");
         Invoice invoice=new Invoice();
-//        if ( dealres.get("STAGE_ID") == "C69:UC_MLMLU7" && dealres.get("CATEGORY_ID")=="69"){
+        if ( dealres.get("STAGE_ID") == "C69:UC_MLMLU7" && dealres.get("CATEGORY_ID")=="69"){
             Consignor consignor =jdbcRepository.getConsignorInfo(id);
             Consignee consignee=jdbcRepository.getConsigneeInfo(id);
             Service service=jdbcRepository.getServiceInfo(id);
@@ -58,7 +58,7 @@ public class InvoiceServiceImp implements InvoiceService{
             invoice.getItems().getServices().add(service);
             String invoiceRes= communication.createInvoice(invoice);
             System.out.println(invoiceRes);
-//        }
+        }
          return invoice;
     }
     public Map<String, Object> getDealFields(){
