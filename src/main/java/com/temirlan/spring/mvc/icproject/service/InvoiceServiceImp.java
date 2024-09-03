@@ -7,23 +7,21 @@ import com.temirlan.spring.mvc.icproject.entity.BankPayment;
 import com.temirlan.spring.mvc.icproject.oneC.Consignee;
 import com.temirlan.spring.mvc.icproject.oneC.Consignor;
 import com.temirlan.spring.mvc.icproject.oneC.Invoice;
+import com.temirlan.spring.mvc.icproject.oneC.Service;
 import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
 import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
-import com.temirlan.spring.mvc.icproject.repository.AccountingRepository;
-import com.temirlan.spring.mvc.icproject.repository.BankPaymentRepository;
-import com.temirlan.spring.mvc.icproject.repository.DealRepository;
-import com.temirlan.spring.mvc.icproject.repository.JDBCRepository;
+import com.temirlan.spring.mvc.icproject.repository.*;
 import com.temirlan.spring.mvc.icproject.restclient.Communication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@org.springframework.stereotype.Service
 public class InvoiceServiceImp implements InvoiceService{
     @Autowired
     public Operations operations;
@@ -42,20 +40,25 @@ public class InvoiceServiceImp implements InvoiceService{
     @Autowired
     private BankPaymentRepository bankPaymentRepository;
 
+    @Autowired
+    private ServiceRepository serviceRepository;
+
     public Invoice createInvoice(String message) throws HttpServerErrorException {
         String id=operations.extractId(message);
         Map<String,Object> deal=communication.getDealById(id);
         Map<String,Object> dealres = (Map<String, Object>) deal.get("result");
         Invoice invoice=new Invoice();
-        if ( dealres.get("STAGE_ID") == "C69:UC_MLMLU7" && dealres.get("CATEGORY_ID")=="69"){
+//        if ( dealres.get("STAGE_ID") == "C69:UC_MLMLU7" && dealres.get("CATEGORY_ID")=="69"){
             Consignor consignor =jdbcRepository.getConsignorInfo(id);
             Consignee consignee=jdbcRepository.getConsigneeInfo(id);
-
+            Service service=jdbcRepository.getServiceInfo(id);
+            serviceRepository.save(service);
             invoice.setConsignee(consignee);
             invoice.setConsignor(consignor);
+            invoice.getItems().getServices().add(service);
             String invoiceRes= communication.createInvoice(invoice);
             System.out.println(invoiceRes);
-        }
+//        }
          return invoice;
     }
     public Map<String, Object> getDealFields(){

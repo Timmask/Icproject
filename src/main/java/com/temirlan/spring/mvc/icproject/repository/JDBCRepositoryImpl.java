@@ -2,8 +2,10 @@ package com.temirlan.spring.mvc.icproject.repository;
 
 import com.temirlan.spring.mvc.icproject.mapper.ConsigneeMapper;
 import com.temirlan.spring.mvc.icproject.mapper.ConsignorMapper;
+import com.temirlan.spring.mvc.icproject.mapper.ServiceMapper;
 import com.temirlan.spring.mvc.icproject.oneC.Consignee;
 import com.temirlan.spring.mvc.icproject.oneC.Consignor;
+import com.temirlan.spring.mvc.icproject.oneC.Service;
 import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
 import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
@@ -12,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class JDBCRepositoryImpl implements JDBCRepository{
@@ -35,7 +39,7 @@ public class JDBCRepositoryImpl implements JDBCRepository{
 
         String script=String.format("select  dl.value  as name , d.UF_CRM_1723444589386 as tin  from deal d " +
                 "left join deal_enum_UF_CRM_1707120091678 dl " +
-                "on dl.external_id::varchar = d.UF_CRM_1707120091678 " +
+                "on convert(varchar(10),dl.external_id) = d.UF_CRM_1707120091678 " +
                 "where d.external_id=%s ",id);
         Consignor consignor= jdbcTemplate.queryForObject(script, new ConsignorMapper());
 
@@ -184,6 +188,17 @@ public class JDBCRepositoryImpl implements JDBCRepository{
                             rs.getString(21)));
     }
 
+    public Service getServiceInfo(String id ){
+        String sql=String.format("SELECT d.UF_CRM_1724236242 \"article\" , d.UF_CRM_1707724024179 as \"square\" ,d.UF_CRM_1709622025399 \"sum\", d2.value as \"nds\" , d3.value \"address\" from deal d \n" +
+                "left join deal_enum_UF_CRM_1708595011927 d2\n" +
+                "on convert(varchar(10),d2.external_id)=d.UF_CRM_1708595011927\n" +
+                "left join deal_enum_uf_crm_1708515537 d3\n" +
+                "on convert(varchar(10),d3.external_id)=d.uf_crm_1708515537\n" +
+                "where d.external_id= %s ",id);
+        System.out.println(sql);
+        Service service= jdbcTemplate.queryForObject(sql, new ServiceMapper());
+        return service;
+    }
 }
 
 

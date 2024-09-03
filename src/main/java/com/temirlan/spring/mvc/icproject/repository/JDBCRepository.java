@@ -2,6 +2,7 @@ package com.temirlan.spring.mvc.icproject.repository;
 
 import com.temirlan.spring.mvc.icproject.oneC.Consignee;
 import com.temirlan.spring.mvc.icproject.oneC.Consignor;
+import com.temirlan.spring.mvc.icproject.oneC.Service;
 import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
 import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
@@ -16,4 +17,6 @@ public interface JDBCRepository {
     public List<ImplementationBi> getAllImplementation(Integer count );
     public List<PayrollFundBi> getPayrollFundList(Integer count );
     public List<InvoiceBi> getInvoicesList(Integer count);
+    public Service getServiceInfo(String id );
+
 }
