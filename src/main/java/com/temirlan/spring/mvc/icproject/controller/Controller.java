@@ -6,7 +6,6 @@ import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
 import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
 import com.temirlan.spring.mvc.icproject.pojo.RunId;
-import com.temirlan.spring.mvc.icproject.repository.BankPaymentRepository;
 import com.temirlan.spring.mvc.icproject.service.InvoiceService;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
@@ -66,6 +65,8 @@ public class Controller {
     public Map<String,Object> bankPaymentsAdd(@RequestBody ArrayList<BankPayment> bankPayments) {
         Map<String,Object> message = new HashMap<>();
         try {
+            String uid=bankPayments.get(0).getBankStatementUid();
+            invoiceService.deleteBankPaymentsByUid(uid);
             ArrayList<BankPayment> response= invoiceService.saveBankPayment(bankPayments);
             message.put("result",response);
         }catch (Exception e){
@@ -89,7 +90,7 @@ public class Controller {
     public Map<String,Object> bankPaymentsDlt(@RequestBody ArrayList<Map> bankPaymentsUid) {
         Map<String,Object> message = new HashMap<>();
         try {
-            List<BankPayment> bankPaymentList= invoiceService.deleteBankPaymentByUid(bankPaymentsUid);
+            List<BankPayment> bankPaymentList= invoiceService.deleteBankPaymentByUids(bankPaymentsUid);
             message.put("result",bankPaymentList);
         }catch (Exception e){
             message.put("result",e.toString());

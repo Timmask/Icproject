@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface BankPaymentRepository extends JpaRepository<BankPayment, Integer> {
     public List<BankPayment> getBankPaymentsByBankStatementUid(String bankStatementUid);
+    public void deleteBankPaymentsByBankStatementUid(String bankStatementUid);
 }
