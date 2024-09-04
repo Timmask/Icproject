@@ -5,6 +5,7 @@ import com.temirlan.spring.mvc.icproject.entity.BankPayment;
 import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
 import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
+import com.temirlan.spring.mvc.icproject.pojo.RunId;
 import com.temirlan.spring.mvc.icproject.repository.BankPaymentRepository;
 import com.temirlan.spring.mvc.icproject.service.InvoiceService;
 import lombok.SneakyThrows;
@@ -27,7 +28,8 @@ public class Controller {
     @Autowired
     private InvoiceService invoiceService;
 
-
+    @Autowired
+    private  RunId runId;
 
     @SneakyThrows
     @GetMapping("/")
@@ -38,6 +40,7 @@ public class Controller {
     public Map apiWebhook(@RequestBody String message){
         Map<String,Object> map = new HashMap<>();
         map.put("result",invoiceService.createInvoice(message));
+        System.out.println("controller: " + runId.value);
         return map;
     }
 
@@ -83,11 +86,11 @@ public class Controller {
         return message;
     }
     @DeleteMapping("/bank-payments")
-    public Map<String,Object> bankPaymentsDlt(@RequestBody ArrayList<BankPayment> bankPayments) {
+    public Map<String,Object> bankPaymentsDlt(@RequestBody ArrayList<Map> bankPaymentsUid) {
         Map<String,Object> message = new HashMap<>();
         try {
-            ArrayList<BankPayment> response= invoiceService.deteleBankPayments(bankPayments);
-            message.put("result",response);
+            List<BankPayment> bankPaymentList= invoiceService.deleteBankPaymentByUid(bankPaymentsUid);
+            message.put("result",bankPaymentList);
         }catch (Exception e){
             message.put("result",e.toString());
         }

@@ -1,5 +1,6 @@
 package com.temirlan.spring.mvc.icproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,9 +20,15 @@ public class BankPayment {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @JsonProperty(value = "paymentOrderDate")
     @Column(name = "date", length = Integer.MAX_VALUE)
     private String date;
 
+    @JsonProperty(value = "bank_statement_uid")
+    @Column(name = "bank_statement_uid", length = 300)
+    private String bankStatementUid;
+
+    @JsonProperty(value = "paymentOrderNumber")
     @Column(name = "number_document", length = 50)
     private String numberDocument;
 

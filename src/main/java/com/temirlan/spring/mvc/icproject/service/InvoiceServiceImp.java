@@ -11,6 +11,7 @@ import com.temirlan.spring.mvc.icproject.oneC.Service;
 import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
 import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
+import com.temirlan.spring.mvc.icproject.pojo.RunId;
 import com.temirlan.spring.mvc.icproject.repository.*;
 import com.temirlan.spring.mvc.icproject.restclient.Communication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,9 @@ public class InvoiceServiceImp implements InvoiceService{
     @Autowired
     private ServiceRepository serviceRepository;
 
+    @Autowired
+    private RunId runId;
+
     public Invoice createInvoice(String message) throws HttpServerErrorException {
         String id=operations.extractId(message);
         Map<String,Object> deal=communication.getDealById(id);
@@ -59,6 +63,7 @@ public class InvoiceServiceImp implements InvoiceService{
             String invoiceRes= communication.createInvoice(invoice);
             System.out.println(invoiceRes);
         }
+        System.out.println("invoice: " + runId.value);
          return invoice;
     }
     public Map<String, Object> getDealFields(){
@@ -97,6 +102,19 @@ public class InvoiceServiceImp implements InvoiceService{
     @Override
     public List<InvoiceBi> getInvoicesList(Integer count) {
         return jdbcRepository.getInvoicesList(count);
+    }
+
+    @Override
+    public List<BankPayment> deleteBankPaymentByUid(List<Map> bankPaymentUids) {
+        List<BankPayment> bankPaymentList=new ArrayList<>();
+
+        for (Map<String,String> uid:bankPaymentUids){
+
+            List<BankPayment> bankPaymentListByUid=bankPaymentRepository.getBankPaymentsByBankStatementUid(uid.get("bank_statement_uid"));
+            bankPaymentRepository.deleteAllInBatch(bankPaymentListByUid);
+            bankPaymentList.addAll(bankPaymentListByUid);
+        }
+        return bankPaymentList;
     }
 
 

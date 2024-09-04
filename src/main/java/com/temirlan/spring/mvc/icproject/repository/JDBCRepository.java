@@ -8,6 +8,7 @@ import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
 
 import java.util.List;
+import java.util.Map;
 
 public interface JDBCRepository {
 

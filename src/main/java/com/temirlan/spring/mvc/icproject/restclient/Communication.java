@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.Gson;
 import com.temirlan.spring.mvc.icproject.oneC.Invoice;
 
+import com.temirlan.spring.mvc.icproject.pojo.RunId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -19,11 +20,16 @@ public class Communication {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private RunId runId;
+
     private final String dealUrl="https://tootopbrass.bitrix24.kz/rest/351/g6klktx7s201zd4j/crm.deal.get.json?id=";
     private final String oneCUrl="https://icgroup.itsg.kz/webserver_ic_line_test/hs/invoice";
 
     public  Map<String,Object> getDealById(String id) {
         Map<String,Object> response =restTemplate.getForObject(dealUrl+id,Map.class);
+        System.out.println("controller: " + runId.value);
         return response;
     }
 

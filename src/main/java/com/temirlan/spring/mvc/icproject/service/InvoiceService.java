@@ -20,4 +20,5 @@ public interface InvoiceService {
     public List<ImplementationBi> getImplementationsList(Integer count);
     public List<PayrollFundBi> getPayrollFundList(Integer count );
     public List<InvoiceBi> getInvoicesList(Integer count);
+    public List<BankPayment> deleteBankPaymentByUid(List<Map> bankPaymentUids);
 }
