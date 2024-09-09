@@ -1,10 +1,7 @@
 package com.temirlan.spring.mvc.icproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Setter
@@ -12,6 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Entity
+@Table(name="planned_income")
 public class PlannedIncome {
 
     @Id
@@ -19,8 +18,15 @@ public class PlannedIncome {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @JsonProperty(value = "doc_type")
-    private String docType;
+
+    @JsonProperty(value = "document_date")
+    private String document_date;
+
+    @JsonProperty(value = "object_construction")
+    private String object_construction;
+
+    @JsonProperty(value = "organization")
+    private String organization;
 
     @JsonProperty(value = "receiver_counterparty")
     private String receiverCounterparty;
@@ -28,7 +34,5 @@ public class PlannedIncome {
     @JsonProperty(value = "sum_income")
     private String sumIncome;
 
-    @JsonProperty(value = "document_date")
-    private String documentDate;
 
 }

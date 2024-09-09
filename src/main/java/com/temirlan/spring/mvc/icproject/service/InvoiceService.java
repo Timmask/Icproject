@@ -26,5 +26,6 @@ public interface InvoiceService {
     public String getDeal(String message);
     public ArrayList<PlannedPayment> savePlannedPayments(ArrayList<PlannedPayment> plannedPayments);
     public void deletePlannedPayments(ArrayList<PlannedPayment> plannedPayments);
-
+    public Map addExpenditureIncome(Map<String,Object> objectMap);
+    public Map delExpenditureIncome(Map<String, Object> objectMap);
 }

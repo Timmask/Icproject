@@ -140,13 +140,19 @@ public class Controller {
     }
 
     @PostMapping("/income-expenditure")
-    public String incomeExpenditureAdd(@RequestBody Map<String,Object> objectMap){
+    public Map incomeExpenditureAdd(@RequestBody Map<String,Object> objectMap){
 
-        ObjectMapper mapper=new ObjectMapper();
-        PlannedExpenditure plannedExpenditure=mapper.convertValue(objectMap.get("planned_expenditure"),PlannedExpenditure.class);
-        System.out.println(plannedExpenditure);
+        return invoiceService.addExpenditureIncome(objectMap);
+    }
 
-        return "Ok";
+    @PutMapping("/income-expenditure")
+    public Map incomeExpenditureUpd(@RequestBody Map<String,Object> objectMap){
+        return invoiceService.addExpenditureIncome(objectMap);
+    }
+
+    @DeleteMapping("/income-expenditure")
+    public Map incomeExpenditureDel(@RequestBody Map<String,Object> objectMap){
+        return invoiceService.delExpenditureIncome(objectMap);
     }
 }
 

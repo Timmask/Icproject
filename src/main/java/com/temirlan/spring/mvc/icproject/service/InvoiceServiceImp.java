@@ -3,10 +3,7 @@ package com.temirlan.spring.mvc.icproject.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.temirlan.spring.mvc.icproject.Operations;
-import com.temirlan.spring.mvc.icproject.entity.Accounting;
-import com.temirlan.spring.mvc.icproject.entity.BankPayment;
-import com.temirlan.spring.mvc.icproject.entity.Deal;
-import com.temirlan.spring.mvc.icproject.entity.PlannedPayment;
+import com.temirlan.spring.mvc.icproject.entity.*;
 import com.temirlan.spring.mvc.icproject.oneC.Consignee;
 import com.temirlan.spring.mvc.icproject.oneC.Consignor;
 import com.temirlan.spring.mvc.icproject.oneC.Invoice;
@@ -47,6 +44,12 @@ public class InvoiceServiceImp implements InvoiceService{
 
     @Autowired
     private PlannedPaymentRepository plannedPaymentRepository;
+
+    @Autowired
+    private ExpenditureRepository expenditureRepository;
+
+    @Autowired
+    private IncomeRepository incomeRepository;
 
     @Transactional
     public Invoice createInvoice(String message) throws HttpServerErrorException {
@@ -98,6 +101,70 @@ public class InvoiceServiceImp implements InvoiceService{
     @Override
     public void deletePlannedPayments(ArrayList<PlannedPayment> plannedPayments) {
         plannedPaymentRepository.deleteAll(plannedPayments);
+    }
+
+    @Override
+    public Map addExpenditureIncome(Map<String, Object> objectMap) {
+        ObjectMapper mapper=new ObjectMapper();
+        List<Map> incomeMap=mapper.convertValue(objectMap.get("planned_income"),List.class);
+        List<Map> expenditureMap=mapper.convertValue(objectMap.get("planned_expenditure"),List.class);
+        String docDate= (String) objectMap.get("document_date");
+        String objectConstruction= (String) objectMap.get("object_construction");
+        String organization= (String) objectMap.get("organization");
+        ArrayList<PlannedIncome> plannedIncomes=new ArrayList<>();
+        ArrayList<PlannedExpenditure> plannedExpenditures=new ArrayList<>();
+
+        for(Map i:incomeMap){
+            PlannedIncome income=mapper.convertValue(i,PlannedIncome.class);
+            income.setDocument_date(docDate);
+            income.setObject_construction(objectConstruction);
+            income.setOrganization(organization);
+            plannedIncomes.add(income);
+        }
+        for(Map i:expenditureMap){
+            PlannedExpenditure expenditure=mapper.convertValue(i,PlannedExpenditure.class);
+            expenditure.setDocument_date(docDate);
+            expenditure.setObject_construction(objectConstruction);
+            expenditure.setOrganization(organization);
+            plannedExpenditures.add(expenditure);
+        }
+        incomeRepository.saveAll(plannedIncomes);
+        expenditureRepository.saveAll(plannedExpenditures);
+        objectMap.put("planned_income",plannedIncomes);
+        objectMap.put("planned_expenditure",plannedExpenditures);
+        return objectMap;
+    }
+
+    @Override
+    public Map delExpenditureIncome(Map<String, Object> objectMap) {
+        ObjectMapper mapper=new ObjectMapper();
+        List<Map> incomeMap=mapper.convertValue(objectMap.get("planned_income"),List.class);
+        List<Map> expenditureMap=mapper.convertValue(objectMap.get("planned_expenditure"),List.class);
+        String docDate= (String) objectMap.get("document_date");
+        String objectConstruction= (String) objectMap.get("object_construction");
+        String organization= (String) objectMap.get("organization");
+        ArrayList<PlannedIncome> plannedIncomes=new ArrayList<>();
+        ArrayList<PlannedExpenditure> plannedExpenditures=new ArrayList<>();
+
+        for(Map i:incomeMap){
+            PlannedIncome income=mapper.convertValue(i,PlannedIncome.class);
+            income.setDocument_date(docDate);
+            income.setObject_construction(objectConstruction);
+            income.setOrganization(organization);
+            plannedIncomes.add(income);
+        }
+        for(Map i:expenditureMap){
+            PlannedExpenditure expenditure=mapper.convertValue(i,PlannedExpenditure.class);
+            expenditure.setDocument_date(docDate);
+            expenditure.setObject_construction(objectConstruction);
+            expenditure.setOrganization(organization);
+            plannedExpenditures.add(expenditure);
+        }
+        incomeRepository.deleteAll(plannedIncomes);
+        expenditureRepository.deleteAll(plannedExpenditures);
+        objectMap.put("planned_income",plannedIncomes);
+        objectMap.put("planned_expenditure",plannedExpenditures);
+        return objectMap;
     }
 
     @Transactional
