@@ -57,11 +57,13 @@ public class InvoiceServiceImp implements InvoiceService{
         String id=operations.extractId(message);
         Map<String,Object> deal=communication.getDealById(id);
         Map<String,Object> dealres = (Map<String, Object>) deal.get("result");
-//        ObjectMapper mapper=new ObjectMapper();
-//        mapper.enable(DeserializationFeature.ACCEPT_FLOAT_AS_INT);
-//        Deal deal1= mapper.convertValue(dealres,Deal.class);
-//        dealRepository.save(deal1);
-//        System.err.println(deal1);
+        ObjectMapper mapper=new ObjectMapper();
+        mapper.enable(DeserializationFeature.ACCEPT_FLOAT_AS_INT);
+//        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        Deal deal1= mapper.convertValue(dealres,Deal.class);
+        dealRepository.save(deal1);
+
+
         Invoice invoice=new Invoice();
         if ( dealres.get("STAGE_ID") == "C69:UC_MLMLU7" && dealres.get("CATEGORY_ID")=="69"){
             Consignor consignor =jdbcRepository.getConsignorInfo(id);

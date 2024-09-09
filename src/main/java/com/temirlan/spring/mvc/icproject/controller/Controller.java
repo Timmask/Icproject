@@ -1,8 +1,7 @@
 package com.temirlan.spring.mvc.icproject.controller;
 
-import com.temirlan.spring.mvc.icproject.entity.Accounting;
-import com.temirlan.spring.mvc.icproject.entity.BankPayment;
-import com.temirlan.spring.mvc.icproject.entity.PlannedPayment;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.temirlan.spring.mvc.icproject.entity.*;
 import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
 import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
@@ -138,6 +137,16 @@ public class Controller {
             message.put("result",e.toString());
         }
         return message;
+    }
+
+    @PostMapping("/income-expenditure")
+    public String incomeExpenditureAdd(@RequestBody Map<String,Object> objectMap){
+
+        ObjectMapper mapper=new ObjectMapper();
+        PlannedExpenditure plannedExpenditure=mapper.convertValue(objectMap.get("planned_expenditure"),PlannedExpenditure.class);
+        System.out.println(plannedExpenditure);
+
+        return "Ok";
     }
 }
 
