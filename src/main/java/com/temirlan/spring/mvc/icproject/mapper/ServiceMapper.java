@@ -11,10 +11,14 @@ public class ServiceMapper implements RowMapper<Service> {
     @Override
     public Service mapRow(ResultSet rs, int rowNum) throws SQLException {
         Service service=new Service();
-        service.setArticle(rs.getString("article"));
-        String isNds=rs.getString("nds");
-        Double sum= Double.valueOf(rs.getString("sum"));
-        Double square  = Double.valueOf(rs.getString("square"));
+
+        String art=rs.getString("article") != null ? rs.getString("article") : "0002";
+        String isNds=rs.getString("nds") != null ? rs.getString("nds") : "НДС";
+        String sumStr=rs.getString("sum") != null ? rs.getString("sum") : "1";
+        String squareStr=rs.getString("square") != null ? rs.getString("square") : "1";
+
+        Double sum= Double.valueOf(sumStr);
+        Double square  = Double.valueOf(squareStr);
         Double unitPrice=sum/square;
         Double sumtax=sum;
         String nds="0";
@@ -24,6 +28,7 @@ public class ServiceMapper implements RowMapper<Service> {
             nds="12";
             ndsAmount=sum*0.12;
         }
+        service.setArticle(art);
         service.setPriceWithTax(sum.toString());
         service.setPriceWithoutTax(sumtax.toString() );
         service.setQuantity(square.toString());

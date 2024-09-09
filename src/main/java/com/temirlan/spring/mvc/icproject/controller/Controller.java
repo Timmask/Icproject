@@ -2,6 +2,7 @@ package com.temirlan.spring.mvc.icproject.controller;
 
 import com.temirlan.spring.mvc.icproject.entity.Accounting;
 import com.temirlan.spring.mvc.icproject.entity.BankPayment;
+import com.temirlan.spring.mvc.icproject.entity.PlannedPayment;
 import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
 import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
@@ -39,8 +40,14 @@ public class Controller {
     public Map apiWebhook(@RequestBody String message){
         Map<String,Object> map = new HashMap<>();
         map.put("result",invoiceService.createInvoice(message));
-        System.out.println("controller: " + runId.value);
         return map;
+    }
+
+
+    @PostMapping("/get-deal")
+    public String getDeal(@RequestBody String message){
+
+        return invoiceService.getDeal(message);
     }
 
     @GetMapping("/fields")
@@ -98,23 +105,39 @@ public class Controller {
         return message;
     }
 
-    @GetMapping("/all-implementation")
-    public List<ImplementationBi> getAllImplementation(@RequestParam(required = false) Integer count) {
-
-        return invoiceService.getImplementationsList(count);
-    }
-
-    @GetMapping("/all-implementations")
-    public List<ImplementationBi> getAllImplementation() {
-        return invoiceService.getImplementationsList(0);
+    @PostMapping("/planned-payments")
+    public Map<String,Object> plannedPaymentsAdd(@RequestBody ArrayList<PlannedPayment> plannedPayments){
+        Map<String,Object> message = new HashMap<>();
+        try {
+            List<PlannedPayment> plannedPaymentArrayList= invoiceService.savePlannedPayments(plannedPayments);
+            message.put("result",plannedPaymentArrayList);
+        }catch (Exception e){
+            message.put("result",e.toString());
         }
-    @GetMapping("/fot-projects")
-    public List<PayrollFundBi> getFotProjects(){
-        return invoiceService.getPayrollFundList(0);
+        return message;
     }
-    @GetMapping("/invoices-bi")
-    public List<InvoiceBi> getInvoicesList(){
-        return invoiceService.getInvoicesList(0);
+
+    @PutMapping("/planned-payments")
+    public Map<String,Object> plannedPaymentsUpdate(@RequestBody ArrayList<PlannedPayment> plannedPayments){
+        Map<String,Object> message = new HashMap<>();
+        try {
+            List<PlannedPayment> plannedPaymentArrayList= invoiceService.savePlannedPayments(plannedPayments);
+            message.put("result",plannedPaymentArrayList);
+        }catch (Exception e){
+            message.put("result",e.toString());
+        }
+        return message;
+    }
+    @DeleteMapping("/planned-payments")
+    public Map<String,Object> plannedPaymentsdate(@RequestBody ArrayList<PlannedPayment> plannedPayments){
+        Map<String,Object> message = new HashMap<>();
+        try {
+            invoiceService.deletePlannedPayments(plannedPayments);
+            message.put("result",plannedPayments);
+        }catch (Exception e){
+            message.put("result",e.toString());
+        }
+        return message;
     }
 }
 

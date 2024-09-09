@@ -1,6 +1,5 @@
 package com.temirlan.spring.mvc.icproject.entity;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -6,14 +6,10 @@ import com.temirlan.spring.mvc.icproject.oneC.Service;
 import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
 import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
-
 import java.util.List;
-import java.util.Map;
 
 public interface JDBCRepository {
-
     public Consignee getConsigneeInfo(String id);
-
     public Consignor getConsignorInfo(String id);
     public List<ImplementationBi> getAllImplementation(Integer count );
     public List<PayrollFundBi> getPayrollFundList(Integer count );

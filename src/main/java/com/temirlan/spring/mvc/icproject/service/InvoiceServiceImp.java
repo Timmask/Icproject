@@ -1,17 +1,17 @@
 package com.temirlan.spring.mvc.icproject.service;
 
-import com.temirlan.spring.mvc.icproject.Deal;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.temirlan.spring.mvc.icproject.Operations;
 import com.temirlan.spring.mvc.icproject.entity.Accounting;
 import com.temirlan.spring.mvc.icproject.entity.BankPayment;
+import com.temirlan.spring.mvc.icproject.entity.Deal;
+import com.temirlan.spring.mvc.icproject.entity.PlannedPayment;
 import com.temirlan.spring.mvc.icproject.oneC.Consignee;
 import com.temirlan.spring.mvc.icproject.oneC.Consignor;
 import com.temirlan.spring.mvc.icproject.oneC.Invoice;
 import com.temirlan.spring.mvc.icproject.oneC.Service;
-import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
-import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
-import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
-import com.temirlan.spring.mvc.icproject.pojo.RunId;
+import com.temirlan.spring.mvc.icproject.pojo.*;
 import com.temirlan.spring.mvc.icproject.repository.*;
 import com.temirlan.spring.mvc.icproject.restclient.Communication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +46,22 @@ public class InvoiceServiceImp implements InvoiceService{
     private ServiceRepository serviceRepository;
 
     @Autowired
-    private RunId runId;
+    private PlannedPaymentRepository plannedPaymentRepository;
+
     @Transactional
     public Invoice createInvoice(String message) throws HttpServerErrorException {
+        Deal newDeal=new Deal();
+        dealRepository.save(newDeal);
+        System.out.println(newDeal);
+
         String id=operations.extractId(message);
         Map<String,Object> deal=communication.getDealById(id);
         Map<String,Object> dealres = (Map<String, Object>) deal.get("result");
+//        ObjectMapper mapper=new ObjectMapper();
+//        mapper.enable(DeserializationFeature.ACCEPT_FLOAT_AS_INT);
+//        Deal deal1= mapper.convertValue(dealres,Deal.class);
+//        dealRepository.save(deal1);
+//        System.err.println(deal1);
         Invoice invoice=new Invoice();
         if ( dealres.get("STAGE_ID") == "C69:UC_MLMLU7" && dealres.get("CATEGORY_ID")=="69"){
             Consignor consignor =jdbcRepository.getConsignorInfo(id);
@@ -62,11 +72,32 @@ public class InvoiceServiceImp implements InvoiceService{
             invoice.setConsignor(consignor);
             invoice.getItems().getServices().add(service);
             String invoiceRes= communication.createInvoice(invoice);
-            System.out.println(invoiceRes);
         }
-        System.out.println("invoice: " + runId.value);
          return invoice;
     }
+
+    @Transactional
+    public String getDeal(String message){
+        String id=operations.extractId(message);
+        Map<String,Object> dealMap=communication.getDeal(id);
+        ObjectMapper mapper=new ObjectMapper();
+        Deal deal= mapper.convertValue(dealMap.get("result"),Deal.class);
+        System.err.println(deal);
+        return "Ok";
+    }
+
+    @Transactional
+    @Override
+    public ArrayList<PlannedPayment> savePlannedPayments(ArrayList<PlannedPayment> plannedPayments) {
+        plannedPaymentRepository.saveAll(plannedPayments);
+        return plannedPayments;
+    }
+
+    @Override
+    public void deletePlannedPayments(ArrayList<PlannedPayment> plannedPayments) {
+        plannedPaymentRepository.deleteAll(plannedPayments);
+    }
+
     @Transactional
     public Map<String, Object> getDealFields(){
         return  communication.getDealFields();

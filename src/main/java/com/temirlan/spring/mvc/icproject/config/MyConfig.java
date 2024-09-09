@@ -1,23 +1,57 @@
 package com.temirlan.spring.mvc.icproject.config;
 
 import com.temirlan.spring.mvc.icproject.HttpLoggingFilter;
+//import com.temirlan.spring.mvc.icproject.aspect.LoggingInterceptor;
+import com.temirlan.spring.mvc.icproject.aspect.LoggingInterceptor;
 import com.temirlan.spring.mvc.icproject.pojo.RunId;
+import com.temirlan.spring.mvc.icproject.repository.RequestLogRepository;
+import com.temirlan.spring.mvc.icproject.repository.WebLogRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.annotation.ApplicationScope;
-import org.springframework.web.context.annotation.RequestScope;
-import org.springframework.web.context.annotation.SessionScope;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @ComponentScan("com.temirlan.spring.mvc.icproject")
 public class MyConfig {
 
+
+    @Autowired
+    private RunId runId;
+
+    @Autowired
+    private RequestLogRepository requestLogRepository;
+
+    @Autowired
+    private WebLogRepository webLogRepository;
+
+    @Bean
+    public ClientHttpRequestFactory clientHttpRequestFactory(){
+        ClientHttpRequestFactory clientHttpRequestFactory =new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
+
+        return clientHttpRequestFactory;
+    }
+
     @Bean
     public RestTemplate restTemplate(){
-        return new RestTemplate();
+        RestTemplate restTemplate=new RestTemplate(clientHttpRequestFactory());
+        List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
+        if (CollectionUtils.isEmpty(interceptors)) {
+            interceptors = new ArrayList<>();
+        }
+        LoggingInterceptor interceptor=new LoggingInterceptor();
+        interceptor.setRunId(runId);
+        interceptor.setWebLogRepository(webLogRepository);
+        interceptors.add(interceptor);
+        restTemplate.setInterceptors(interceptors);
+        return restTemplate ;
     }
     @Bean
     public HttpLoggingFilter requestLoggingFilter() {
@@ -27,15 +61,16 @@ public class MyConfig {
         loggingFilter.setIncludePayload(true);
         loggingFilter.setMaxPayloadLength(64000);
         loggingFilter.setIncludeHeaders(true);
+        loggingFilter.setRequestLogRepository(requestLogRepository);
+        loggingFilter.setRunId(runId);
         return loggingFilter;
 
     }
 
-    @Bean
-    @Scope(value="request", proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public RunId runId(){
-        RunId runId=new RunId();
-        runId.setValue(UUID.randomUUID().toString());
-        return runId;
-    }
+//    @Bean
+//    public RunId runId(){
+//        RunId runId=new RunId();
+//        runId.setValue(UUID.randomUUID().toString());
+//        return runId;
+//    }
 }
