@@ -13,12 +13,14 @@ import com.temirlan.spring.mvc.icproject.repository.*;
 import com.temirlan.spring.mvc.icproject.restclient.Communication;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @org.springframework.stereotype.Service
 public class InvoiceServiceImp implements InvoiceService{
@@ -100,9 +102,10 @@ public class InvoiceServiceImp implements InvoiceService{
     public void deletePlannedPayments(ArrayList<PlannedPayment> plannedPayments) {
         plannedPaymentRepository.deleteAll(plannedPayments);
     }
-
+    @Async
     @Override
-    public Map addExpenditureIncome(Map<String, Object> objectMap) {
+    public CompletableFuture<Map> addExpenditureIncome(Map<String, Object> objectMap) {
+        long startTime = System.nanoTime();
         ObjectMapper mapper=new ObjectMapper();
         List<Map> incomeMap=mapper.convertValue(objectMap.get("planned_income"),List.class);
         List<Map> expenditureMap=mapper.convertValue(objectMap.get("planned_expenditure"),List.class);
@@ -111,7 +114,6 @@ public class InvoiceServiceImp implements InvoiceService{
         String organization= (String) objectMap.get("organization");
         ArrayList<PlannedIncome> plannedIncomes=new ArrayList<>();
         ArrayList<PlannedExpenditure> plannedExpenditures=new ArrayList<>();
-
         for(Map i:incomeMap){
             PlannedIncome income=mapper.convertValue(i,PlannedIncome.class);
             income.setDocument_date(docDate);
@@ -130,11 +132,15 @@ public class InvoiceServiceImp implements InvoiceService{
         expenditureRepository.saveAll(plannedExpenditures);
         objectMap.put("planned_income",plannedIncomes);
         objectMap.put("planned_expenditure",plannedExpenditures);
-        return objectMap;
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        System.err.println(duration);
+        return CompletableFuture.completedFuture(objectMap);
     }
 
+    @Async
     @Override
-    public Map delExpenditureIncome(Map<String, Object> objectMap) {
+    public CompletableFuture<Map> delExpenditureIncome(Map<String, Object> objectMap) {
         ObjectMapper mapper=new ObjectMapper();
         List<Map> incomeMap=mapper.convertValue(objectMap.get("planned_income"),List.class);
         List<Map> expenditureMap=mapper.convertValue(objectMap.get("planned_expenditure"),List.class);
@@ -162,7 +168,7 @@ public class InvoiceServiceImp implements InvoiceService{
         expenditureRepository.deleteAll(plannedExpenditures);
         objectMap.put("planned_income",plannedIncomes);
         objectMap.put("planned_expenditure",plannedExpenditures);
-        return objectMap;
+        return CompletableFuture.completedFuture(objectMap);
     }
 
     @Transactional
@@ -173,18 +179,24 @@ public class InvoiceServiceImp implements InvoiceService{
     public void saveAccounting(Accounting accounting){
         accountingRepository.save(accounting);
     }
+    @Async
     @Transactional
     @Override
-    public ArrayList<BankPayment> saveBankPayment(ArrayList<BankPayment> bankPayment) {
+    public CompletableFuture<ArrayList> saveBankPayment(ArrayList<BankPayment> bankPayment) {
+            long startTime = System.currentTimeMillis();
             bankPaymentRepository.saveAll(bankPayment);
-            return bankPayment;
+            long endTime = System.currentTimeMillis();
+            long duration = (endTime - startTime);
+            System.err.println(duration);
+            return CompletableFuture.completedFuture(bankPayment);
 
     }
+    @Async
     @Transactional
     @Override
-    public ArrayList<BankPayment> deteleBankPayments(ArrayList<BankPayment> bankPayment) {
+    public CompletableFuture<ArrayList> deteleBankPayments(ArrayList<BankPayment> bankPayment) {
         bankPaymentRepository.deleteAllInBatch(bankPayment);
-        return bankPayment;
+        return CompletableFuture.completedFuture(bankPayment);
     }
 
     @Transactional
@@ -205,10 +217,10 @@ public class InvoiceServiceImp implements InvoiceService{
     public List<InvoiceBi> getInvoicesList(Integer count) {
         return jdbcRepository.getInvoicesList(count);
     }
-
+    @Async
     @Transactional
     @Override
-    public List<BankPayment> deleteBankPaymentByUids(List<Map> bankPaymentUids) {
+    public CompletableFuture<List> deleteBankPaymentByUids(List<Map> bankPaymentUids) {
         List<BankPayment> bankPaymentList=new ArrayList<>();
 
         for (Map<String,String> uid:bankPaymentUids){
@@ -217,7 +229,7 @@ public class InvoiceServiceImp implements InvoiceService{
             bankPaymentRepository.deleteAllInBatch(bankPaymentListByUid);
             bankPaymentList.addAll(bankPaymentListByUid);
         }
-        return bankPaymentList;
+        return CompletableFuture.completedFuture(bankPaymentList);
     }
     @Transactional
     @Override
