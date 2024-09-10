@@ -59,12 +59,12 @@ public class InvoiceServiceImp implements InvoiceService{
         Map<String,Object> deal=communication.getDealById(id);
         Map<String,Object> dealres = (Map<String, Object>) deal.get("result");
         ObjectMapper mapper=new ObjectMapper();
-//        mapper.enable(DeserializationFeature.ACCEPT_FLOAT_AS_INT);
-//        mapper.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
-//
-//        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//        Deal deal1= mapper.convertValue(dealres,Deal.class);
-//        dealRepository.save(deal1);
+        mapper.enable(DeserializationFeature.ACCEPT_FLOAT_AS_INT);
+        mapper.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
+
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        Deal deal1= mapper.convertValue(dealres,Deal.class);
+        dealRepository.save(deal1);
         Invoice invoice=new Invoice();
         if ( dealres.get("STAGE_ID") == "C69:UC_MLMLU7" && dealres.get("CATEGORY_ID")=="69"){
             Consignor consignor =jdbcRepository.getConsignorInfo(id);
@@ -102,8 +102,8 @@ public class InvoiceServiceImp implements InvoiceService{
     }
 
 
-    @Async
     @Override
+    @Async
     public CompletableFuture<Map> addExpenditureIncome(Map<String, Object> objectMap) {
         long startTime = System.nanoTime();
         ObjectMapper mapper=new ObjectMapper();
@@ -138,8 +138,9 @@ public class InvoiceServiceImp implements InvoiceService{
         return CompletableFuture.completedFuture(objectMap);
     }
 
-    @Async
+
     @Override
+    @Async
     public CompletableFuture<Map> delExpenditureIncome(Map<String, Object> objectMap) {
         ObjectMapper mapper=new ObjectMapper();
         List<Map> incomeMap=mapper.convertValue(objectMap.get("planned_income"),List.class);
@@ -185,23 +186,18 @@ public class InvoiceServiceImp implements InvoiceService{
     @Transactional
     @Override
     @Async
-    public CompletableFuture<List> saveBankPayment(ArrayList<BankPayment> bankPayment) {
-            long startTime = System.currentTimeMillis();
-            List<BankPayment> bankPaymentList=bankPaymentRepository.saveAll(bankPayment);
-
-            long endTime = System.currentTimeMillis();
-            long duration = (endTime - startTime);
-            System.err.println(duration);
-            return CompletableFuture.completedFuture(bankPaymentList);
+    public CompletableFuture<List<BankPayment>> saveBankPayment(ArrayList<BankPayment> bankPayment) {
+            return CompletableFuture.completedFuture(bankPaymentRepository.saveAll(bankPayment));
 
     }
 
     @Transactional
     @Override
     @Async
-    public CompletableFuture<ArrayList> deteleBankPayments(ArrayList<BankPayment> bankPayment) {
+    public CompletableFuture<Void> deteleBankPayments(ArrayList<BankPayment> bankPayment) {
         bankPaymentRepository.deleteAllInBatch(bankPayment);
-        return CompletableFuture.completedFuture(bankPayment);
+
+        return CompletableFuture.completedFuture(null);
     }
 
     @Transactional
@@ -222,10 +218,10 @@ public class InvoiceServiceImp implements InvoiceService{
     public List<InvoiceBi> getInvoicesList(Integer count) {
         return jdbcRepository.getInvoicesList(count);
     }
-    @Async
     @Transactional
     @Override
-    public CompletableFuture<List> deleteBankPaymentByUids(List<Map> bankPaymentUids) {
+    @Async
+    public CompletableFuture<List<BankPayment>> deleteBankPaymentByUids(List<Map> bankPaymentUids) {
         List<BankPayment> bankPaymentList=new ArrayList<>();
 
         for (Map<String,String> uid:bankPaymentUids){
@@ -244,3 +240,6 @@ public class InvoiceServiceImp implements InvoiceService{
 
 
 }
+//
+//t=error code=H12 desc="Request timeout" method=POST path="/api/bank-payments" host=icdatabase-556b334c01d9.herokuapp.com request_id=e923e593-991e-439e-819f-f4ecf4aa9b0a fwd="79.143.23.52" dyno=web.1 connect=0ms service=30324ms status=503 bytes=0 protocol=https
+//2024-09-10T12:48:46.896345+00:00 app[web.1]: 2024-09-10T12:48:46.896Z  WARN 2 --- [Icproject] [io-44023-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to write: java.io.IOException: Broken pipe]

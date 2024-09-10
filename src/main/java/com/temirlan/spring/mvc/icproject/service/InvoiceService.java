@@ -17,12 +17,12 @@ public interface InvoiceService {
     public Invoice createInvoice(String message);
     public Map<String,Object> getDealFields();
     public void saveAccounting(Accounting accounting);
-    public CompletableFuture<List> saveBankPayment(ArrayList<BankPayment> bankPayment);
-    public CompletableFuture<ArrayList> deteleBankPayments(ArrayList<BankPayment> bankPayment);
+    public CompletableFuture<List<BankPayment>> saveBankPayment(ArrayList<BankPayment> bankPayment);
+    public CompletableFuture<Void> deteleBankPayments(ArrayList<BankPayment> bankPayment);
     public List<ImplementationBi> getImplementationsList(Integer count);
     public List<PayrollFundBi> getPayrollFundList(Integer count );
     public List<InvoiceBi> getInvoicesList(Integer count);
-    public  CompletableFuture<List> deleteBankPaymentByUids(List<Map> bankPaymentUids);
+    public  CompletableFuture<List<BankPayment>> deleteBankPaymentByUids(List<Map> bankPaymentUids);
     public void deleteBankPaymentsByUid(String bankPaymentUid);
     public String getDeal(String message);
     public ArrayList<PlannedPayment> savePlannedPayments(ArrayList<PlannedPayment> plannedPayments);

@@ -74,7 +74,7 @@ public class Controller {
         try {
             String uid=bankPayments.get(0).getBankStatementUid();
             invoiceService.deleteBankPaymentsByUid(uid);
-            CompletableFuture<List> response= invoiceService.saveBankPayment(bankPayments);
+            CompletableFuture<List<BankPayment>> response= invoiceService.saveBankPayment(bankPayments);
             message.put("result",bankPayments);
             message.put("async",response);
         }catch (Exception e){
@@ -87,7 +87,7 @@ public class Controller {
     public Map<String,Object> bankPaymentsUpd(@RequestBody ArrayList<BankPayment> bankPayments) {
         Map<String,Object> message = new HashMap<>();
         try {
-            CompletableFuture<List> response= invoiceService.saveBankPayment(bankPayments);
+            CompletableFuture<List<BankPayment>> response= invoiceService.saveBankPayment(bankPayments);
             message.put("result",bankPayments);
             message.put("async",response);
         }catch (Exception e){
@@ -99,7 +99,7 @@ public class Controller {
     public Map<String,Object> bankPaymentsDlt(@RequestBody ArrayList<Map> bankPaymentsUid) {
         Map<String,Object> message = new HashMap<>();
         try {
-            CompletableFuture<List> bankPaymentList= invoiceService.deleteBankPaymentByUids(bankPaymentsUid);
+            CompletableFuture<List<BankPayment>> bankPaymentList= invoiceService.deleteBankPaymentByUids(bankPaymentsUid);
             message.put("result",bankPaymentsUid);
             message.put("async",bankPaymentList);
         }catch (Exception e){
