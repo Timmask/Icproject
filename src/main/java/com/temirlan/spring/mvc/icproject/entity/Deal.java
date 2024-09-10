@@ -61,7 +61,7 @@ public class Deal {
         private Double OPPORTUNITY; // изменено с opportunity на OPPORTUNITY
 
 //        @JsonProperty(value = "IS_MANUAL_OPPORTUNITY")
-//        @Column(name = "is_manual_opportunity")
+//        @Column(name = "uf_crm_is_manual_opportunity")
 //        private String IS_MANUAL_OPPORTUNITY;
 
         @JsonProperty(value = "TAX_VALUE")
@@ -559,8 +559,8 @@ public class Deal {
 
     @JsonProperty(value = "UF_CRM_1716804677915")
 //    @ColumnTransformer(write = "CAST( ? AS float)")
-//    @Column(name = "uf_crm_1716804677915")
-    private List<Object> UF_CRM_1716804677915;
+    @Column(name = "uf_crm_1716804677915")
+    private String UF_CRM_1716804677915;
 
     @JsonProperty(value = "UF_CRM_1716891180821")
     @Column(name = "uf_crm_1716891180821")
@@ -589,7 +589,7 @@ public class Deal {
     @JsonProperty(value = "UF_CRM_1723523640792")
 //    @ColumnTransformer(write = "CAST( ? AS float)")
 //    @Column(name = "uf_crm_1723523640792")
-    private List<Object> UF_CRM_1723523640792;
+    private String UF_CRM_1723523640792;
 
     @JsonProperty(value = "UF_CRM_1724137625749")
     @Column(name = "uf_crm_1724137625749")
@@ -617,8 +617,8 @@ public class Deal {
 
     @JsonProperty(value = "UF_CRM_1724323806918")
 //    @ColumnTransformer(write = "CAST( ? AS float)")
-//    @Column(name = "uf_crm_1724323806918")
-    private List<Object> UF_CRM_1724323806918;
+    @Column(name = "uf_crm_1724323806918")
+    private String UF_CRM_1724323806918;
 
     @JsonProperty(value = "UF_CRM_1724324415114")
     @Column(name = "uf_crm_1724324415114")
@@ -711,7 +711,7 @@ public class Deal {
     @JsonProperty(value = "UF_CRM_1724821296881")
 //    @ColumnTransformer(write = "CAST( ? AS float)")
 //    @Column(name = "uf_crm_1724821296881")
-    private boolean UF_CRM_1724821296881;
+    private String UF_CRM_1724821296881;
 
     @JsonProperty(value = "UF_CRM_1725875928466")
 //    @ColumnTransformer(write = "CAST( ? AS float)")
@@ -788,7 +788,7 @@ public class Deal {
     @JsonProperty(value = "UF_CRM_ORDER_IDS")
 //    @ColumnTransformer(write = "CAST( ? AS float)")
 //    @Column(name = "uf_crm_order_ids")
-    private List<Object> UF_CRM_ORDER_IDS;
+    private String UF_CRM_ORDER_IDS;
 
     @JsonProperty(value = "UF_CRM_19_1712142579982")
     @Column(name = "uf_crm_19_1712142579982")
@@ -888,7 +888,7 @@ public class Deal {
     @JsonProperty(value = "UF_CRM_1707153679546")
 //    @ColumnTransformer(write = "CAST( ? AS float)")
 //    @Column(name = "uf_crm_1707153679546")
-    private List<Object> UF_CRM_1707153679546;
+    private String UF_CRM_1707153679546;
 
 
     @JsonProperty(value = "UF_CRM_1708669679267")
