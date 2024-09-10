@@ -12,11 +12,9 @@ import com.temirlan.spring.mvc.icproject.pojo.*;
 import com.temirlan.spring.mvc.icproject.repository.*;
 import com.temirlan.spring.mvc.icproject.restclient.Communication;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +100,9 @@ public class InvoiceServiceImp implements InvoiceService{
     public void deletePlannedPayments(ArrayList<PlannedPayment> plannedPayments) {
         plannedPaymentRepository.deleteAll(plannedPayments);
     }
-    @Async
+
+
+    @Async("asyncExecutor")
     @Override
     public CompletableFuture<Map> addExpenditureIncome(Map<String, Object> objectMap) {
         long startTime = System.nanoTime();
@@ -138,7 +138,7 @@ public class InvoiceServiceImp implements InvoiceService{
         return CompletableFuture.completedFuture(objectMap);
     }
 
-    @Async
+    @Async("asyncExecutor")
     @Override
     public CompletableFuture<Map> delExpenditureIncome(Map<String, Object> objectMap) {
         ObjectMapper mapper=new ObjectMapper();
@@ -171,6 +171,7 @@ public class InvoiceServiceImp implements InvoiceService{
         return CompletableFuture.completedFuture(objectMap);
     }
 
+
     @Transactional
     public Map<String, Object> getDealFields(){
         return  communication.getDealFields();
@@ -179,21 +180,25 @@ public class InvoiceServiceImp implements InvoiceService{
     public void saveAccounting(Accounting accounting){
         accountingRepository.save(accounting);
     }
-    @Async
+
+
     @Transactional
     @Override
-    public CompletableFuture<ArrayList> saveBankPayment(ArrayList<BankPayment> bankPayment) {
+    @Async("asyncExecutor")
+    public CompletableFuture<List> saveBankPayment(ArrayList<BankPayment> bankPayment) {
             long startTime = System.currentTimeMillis();
-            bankPaymentRepository.saveAll(bankPayment);
+            List<BankPayment> bankPaymentList=bankPaymentRepository.saveAll(bankPayment);
+
             long endTime = System.currentTimeMillis();
             long duration = (endTime - startTime);
             System.err.println(duration);
-            return CompletableFuture.completedFuture(bankPayment);
+            return CompletableFuture.completedFuture(bankPaymentList);
 
     }
-    @Async
+
     @Transactional
     @Override
+    @Async("asyncExecutor")
     public CompletableFuture<ArrayList> deteleBankPayments(ArrayList<BankPayment> bankPayment) {
         bankPaymentRepository.deleteAllInBatch(bankPayment);
         return CompletableFuture.completedFuture(bankPayment);
@@ -217,7 +222,7 @@ public class InvoiceServiceImp implements InvoiceService{
     public List<InvoiceBi> getInvoicesList(Integer count) {
         return jdbcRepository.getInvoicesList(count);
     }
-    @Async
+    @Async("asyncExecutor")
     @Transactional
     @Override
     public CompletableFuture<List> deleteBankPaymentByUids(List<Map> bankPaymentUids) {
