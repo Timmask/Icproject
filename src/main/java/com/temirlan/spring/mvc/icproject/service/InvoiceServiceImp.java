@@ -102,7 +102,7 @@ public class InvoiceServiceImp implements InvoiceService{
     }
 
 
-    @Async("asyncExecutor")
+    @Async
     @Override
     public CompletableFuture<Map> addExpenditureIncome(Map<String, Object> objectMap) {
         long startTime = System.nanoTime();
@@ -138,7 +138,7 @@ public class InvoiceServiceImp implements InvoiceService{
         return CompletableFuture.completedFuture(objectMap);
     }
 
-    @Async("asyncExecutor")
+    @Async
     @Override
     public CompletableFuture<Map> delExpenditureIncome(Map<String, Object> objectMap) {
         ObjectMapper mapper=new ObjectMapper();
@@ -184,7 +184,7 @@ public class InvoiceServiceImp implements InvoiceService{
 
     @Transactional
     @Override
-    @Async("asyncExecutor")
+    @Async
     public CompletableFuture<List> saveBankPayment(ArrayList<BankPayment> bankPayment) {
             long startTime = System.currentTimeMillis();
             List<BankPayment> bankPaymentList=bankPaymentRepository.saveAll(bankPayment);
@@ -198,7 +198,7 @@ public class InvoiceServiceImp implements InvoiceService{
 
     @Transactional
     @Override
-    @Async("asyncExecutor")
+    @Async
     public CompletableFuture<ArrayList> deteleBankPayments(ArrayList<BankPayment> bankPayment) {
         bankPaymentRepository.deleteAllInBatch(bankPayment);
         return CompletableFuture.completedFuture(bankPayment);
@@ -222,7 +222,7 @@ public class InvoiceServiceImp implements InvoiceService{
     public List<InvoiceBi> getInvoicesList(Integer count) {
         return jdbcRepository.getInvoicesList(count);
     }
-    @Async("asyncExecutor")
+    @Async
     @Transactional
     @Override
     public CompletableFuture<List> deleteBankPaymentByUids(List<Map> bankPaymentUids) {
