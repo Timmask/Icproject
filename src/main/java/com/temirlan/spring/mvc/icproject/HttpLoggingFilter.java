@@ -25,12 +25,14 @@ public class HttpLoggingFilter extends AbstractRequestLoggingFilter {
         requestLog.setRun_id(runId.getValue());
         requestLog.setMethod(request.getMethod());
         requestLog.setEndpoint(request.getRequestURL().toString());
-        requestLog.setBody(message);
+        requestLog.setBody(request.toString());
         requestLogRepository.save(requestLog);
     }
 
     @Override
     protected void afterRequest(HttpServletRequest request, String message) {
 
+
+//        System.err.println(request.pay);
     }
 }
