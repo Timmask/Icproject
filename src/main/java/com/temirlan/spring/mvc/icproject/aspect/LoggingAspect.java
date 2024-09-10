@@ -11,27 +11,25 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
-@Component
-@Aspect
+
 public class LoggingAspect {
 
-    @Autowired
-    private RequestLogRepository requestLogRepository;
+     private RequestLogRepository requestLogRepository;
 
-    @Before("@annotation(org.springframework.web.bind.annotation.PostMapping)")
-    public void logBefore(JoinPoint joinPoint) {
-
-        MethodSignature methodSignature= (MethodSignature) joinPoint.getSignature();
-        RequestLog requestLog = new RequestLog();
-        Object[] args = joinPoint.getArgs();
-        requestLog.setBody(args[0].toString());
-        PostMapping post =methodSignature.getMethod().getAnnotation(PostMapping.class);
-        requestLog.setEndpoint( "http://localhost:8080" + post.value()[0].toString());
-        Object object=new Object();
-        requestLog.setRunId( String.valueOf(object.hashCode()));
-//        long now = System.currentTimeMillis();
-//        Date date = new Date(now);
-//        requestLog.setTimestamp(date.toInstant());
-        requestLogRepository.save(requestLog);
-    }
+//    @Before("@annotation(org.springframework.web.bind.annotation.PostMapping)")
+//    public void logBefore(JoinPoint joinPoint) {
+//
+//        MethodSignature methodSignature= (MethodSignature) joinPoint.getSignature();
+//        RequestLog requestLog = new RequestLog();
+//        Object[] args = joinPoint.getArgs();
+//        requestLog.setBody(args[0].toString());
+//        PostMapping post =methodSignature.getMethod().getAnnotation(PostMapping.class);
+//        requestLog.setEndpoint( "http://localhost:8080" + post.value()[0].toString());
+//        Object object=new Object();
+//        requestLog.setRunId( String.valueOf(object.hashCode()));
+////        long now = System.currentTimeMillis();
+////        Date date = new Date(now);
+////        requestLog.setTimestamp(date.toInstant());
+//        requestLogRepository.save(requestLog);
+//    }
 }
