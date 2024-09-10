@@ -1,8 +1,5 @@
 package com.temirlan.spring.mvc.icproject.config;
 
-import com.temirlan.spring.mvc.icproject.HttpLoggingFilter;
-//import com.temirlan.spring.mvc.icproject.aspect.LoggingInterceptor;
-import com.temirlan.spring.mvc.icproject.Operations;
 import com.temirlan.spring.mvc.icproject.aspect.LoggingInterceptor;
 import com.temirlan.spring.mvc.icproject.pojo.RunId;
 import com.temirlan.spring.mvc.icproject.repository.RequestLogRepository;
@@ -55,17 +52,17 @@ public class MyConfig {
         restTemplate.setInterceptors(interceptors);
         return restTemplate ;
     }
-    @Bean
-    public HttpLoggingFilter requestLoggingFilter() {
-        HttpLoggingFilter loggingFilter = new HttpLoggingFilter();
-        loggingFilter.setIncludeClientInfo(true);
-        loggingFilter.setIncludeQueryString(true);
-        loggingFilter.setIncludePayload(true);
-        loggingFilter.setMaxPayloadLength(64000);
-        loggingFilter.setIncludeHeaders(true);
-        loggingFilter.setRequestLogRepository(requestLogRepository);
-        loggingFilter.setRunId(runId);
-        return loggingFilter;
+//    @Bean
+//    public HttpLoggingFilter requestLoggingFilter() {
+//        HttpLoggingFilter loggingFilter = new HttpLoggingFilter();
+//        loggingFilter.setIncludeClientInfo(true);
+//        loggingFilter.setIncludeQueryString(true);
+//        loggingFilter.setIncludePayload(true);
+//        loggingFilter.setMaxPayloadLength(64000);
+//        loggingFilter.setIncludeHeaders(true);
+//        loggingFilter.setRequestLogRepository(requestLogRepository);
+//        loggingFilter.setRunId(runId);
+//        return loggingFilter;
 
     }
 
@@ -75,4 +72,4 @@ public class MyConfig {
 //        runId.setValue(UUID.randomUUID().toString());
 //        return runId;
 //    }
-}
+
