@@ -43,26 +43,26 @@ public class Deal {
         @Column(name = "currency_id")
         private String CURRENCY_ID; // изменено с currencyId на CURRENCY_ID
 
-        @JsonProperty(value= "PARENT_ID_132")
-        private String PARENT_ID_132; // изменено с currencyId на CURRENCY_ID
-
-        @JsonProperty(value= "PARENT_ID_1036")
-        private String PARENT_ID_1036; // изменено с currencyId на CURRENCY_ID
-
-        @JsonProperty(value= "PARENT_ID_1040")
-        private String PARENT_ID_1040; // изменено с currencyId на CURRENCY_ID
-
-        @JsonProperty(value= "PARENT_ID_1046")
-        private String PARENT_ID_1046; // изменено с currencyId на CURRENCY_ID
+//        @JsonProperty(value= "PARENT_ID_132")
+//        private String PARENT_ID_132; // изменено с currencyId на CURRENCY_ID
+//
+//        @JsonProperty(value= "PARENT_ID_1036")
+//        private String PARENT_ID_1036; // изменено с currencyId на CURRENCY_ID
+//
+//        @JsonProperty(value= "PARENT_ID_1040")
+//        private String PARENT_ID_1040; // изменено с currencyId на CURRENCY_ID
+//
+//        @JsonProperty(value= "PARENT_ID_1046")
+//        private String PARENT_ID_1046; // изменено с currencyId на CURRENCY_ID
 
 
         @JsonProperty(value = "OPPORTUNITY")
         @Column(name = "opportunity")
         private Double OPPORTUNITY; // изменено с opportunity на OPPORTUNITY
 
-        @JsonProperty(value = "IS_MANUAL_OPPORTUNITY")
-        @Column(name = "is_manual_opportunity")
-        private String IS_MANUAL_OPPORTUNITY;
+//        @JsonProperty(value = "IS_MANUAL_OPPORTUNITY")
+//        @Column(name = "is_manual_opportunity")
+//        private String IS_MANUAL_OPPORTUNITY;
 
         @JsonProperty(value = "TAX_VALUE")
         @Column(name = "tax_value")
@@ -92,9 +92,9 @@ public class Deal {
         @Column(name = "is_return_customer")
         private String IS_RETURN_CUSTOMER; // изменено с isReturnCustomer на IS_RETURN_CUSTOMER
 
-        @JsonProperty(value = "IS_REPEATED_APPROACH")
-        @Column(name = "is_repeated_approach")
-        private String IS_REPEATED_APPROACH; // изменено с isRepeatedApproach на IS_REPEATED_APPROACH
+//        @JsonProperty(value = "IS_REPEATED_APPROACH")
+//        @Column(name = "is_repeated_approach")
+//        private String IS_REPEATED_APPROACH; // изменено с isRepeatedApproach на IS_REPEATED_APPROACH
 
         @JsonProperty(value = "COMPANY_ID")
         @Column(name = "company_id")
@@ -212,13 +212,13 @@ public class Deal {
         private String UTM_TERM; // изменено с utmTerm на UTM_TERM
 
 
-        @JsonProperty(value = "LAST_ACTIVITY_TIME")
-        @Column(name = "last_activity_time")
-        private String LAST_ACTIVITY_TIME; // изменено с lastActivityTime на LAST_ACTIVITY_TIME
-
-        @JsonProperty(value = "LAST_ACTIVITY_BY")
-        @Column(name = "last_activity_by")
-        private String LAST_ACTIVITY_BY; // изменено с lastActivityBy на LAST_ACTIVITY_BY
+//        @JsonProperty(value = "LAST_ACTIVITY_TIME")
+//        @Column(name = "last_activity_time")
+//        private String LAST_ACTIVITY_TIME; // изменено с lastActivityTime на LAST_ACTIVITY_TIME
+//
+//        @JsonProperty(value = "LAST_ACTIVITY_BY")
+//        @Column(name = "last_activity_by")
+//        private String LAST_ACTIVITY_BY; // изменено с lastActivityBy на LAST_ACTIVITY_BY
 
         @JsonProperty(value = "UF_CRM_1712228470")
         @Column(name = "uf_crm_1712228470")
@@ -322,6 +322,7 @@ public class Deal {
 //        @Column(name = "uf_crm_1707147038325")
         private List<Object> UF_CRM_1707147038325;
 
+
 //        @Column(name = "uf_crm_1707147038325")
 //        private Double D_UF_CRM_1707147038325;
 
@@ -413,10 +414,10 @@ public class Deal {
     @Column(name = "uf_crm_1707728528")
     private String UF_CRM_1707728528;
 
-    @JsonProperty(value = "UF_CRM_1707800037114")
-//    @ColumnTransformer(write = "CAST( ? AS float)")
-//    @Column(name = "uf_crm_1707800037114")
-    private List<Object> UF_CRM_1707800037114;
+//    @JsonProperty(value = "UF_CRM_1707800037114")
+////    @ColumnTransformer(write = "CAST( ? AS float)")
+////    @Column(name = "uf_crm_1707800037114")
+//    private List<Object> UF_CRM_1707800037114;
 
     @JsonProperty(value = "UF_CRM_1707895852370")
     @Column(name = "uf_crm_1707895852370")
@@ -489,10 +490,10 @@ public class Deal {
     @Column(name = "uf_crm_1711371065591")
     private String UF_CRM_1711371065591;
 
-    @JsonProperty(value = "UF_CRM_1711523487508")
-//    @ColumnTransformer(write = "CAST( ? AS float)")
-//    @Column(name = "uf_crm_1711523487508")
-    private List<Object> UF_CRM_1711523487508;
+//    @JsonProperty(value = "UF_CRM_1711523487508")
+////    @ColumnTransformer(write = "CAST( ? AS float)")
+////    @Column(name = "uf_crm_1711523487508")
+//    private List<Object> UF_CRM_1711523487508;
 
     @JsonProperty(value = "UF_CRM_1711711756588")
     @Column(name = "uf_crm_1711711756588")
@@ -752,10 +753,10 @@ public class Deal {
     @Column(name = "uf_crm_19_1712141643098")
     private String UF_CRM_191712141643098;
 
-    @JsonProperty(value = "UF_CRM_19_1712142270090")
-//    @ColumnTransformer(write = "CAST( ? AS float)")
-//    @Column(name = "uf_crm_19_1712142270090")
-    private List<Object> UF_CRM_191712142270090;
+//    @JsonProperty(value = "UF_CRM_19_1712142270090")
+////    @ColumnTransformer(write = "CAST( ? AS float)")
+////    @Column(name = "uf_crm_19_1712142270090")
+//    private List<Object> UF_CRM_191712142270090;
 
     @JsonProperty(value = "UF_CRM_DATE_MODIFY")
     @Column(name = "uf_crm_date_modify")
@@ -770,10 +771,10 @@ public class Deal {
     private String UF_CRM_DATE_CREATE;
 
 
-    @JsonProperty(value = "UF_CRM_19_1712141810001")
-//    @ColumnTransformer(write = "CAST( ? AS float)")
-//    @Column(name = "uf_crm_19_1712141810001")
-    private List<Object> UF_CRM_191712141810001;
+//    @JsonProperty(value = "UF_CRM_19_1712141810001")
+////    @ColumnTransformer(write = "CAST( ? AS float)")
+////    @Column(name = "uf_crm_19_1712141810001")
+//    private List<Object> UF_CRM_191712141810001;
 
     @JsonProperty(value = "UF_CRM_1708060379106")
     @Column(name = "uf_crm_1708060379106")

@@ -1,10 +1,7 @@
 package com.temirlan.spring.mvc.icproject.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnTransformer;
 
 
@@ -12,6 +9,7 @@ import org.hibernate.annotations.ColumnTransformer;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
 @Table(name="test_request_log",schema = "log")
 public class RequestLog {
@@ -20,7 +18,7 @@ public class RequestLog {
     private int id;
 
     @Column(name="run_id")
-    private String run_id;
+    private String runId;
 
     @Column(name="method")
     private String method;

@@ -62,9 +62,7 @@ public class InvoiceServiceImp implements InvoiceService{
         Map<String,Object> dealres = (Map<String, Object>) deal.get("result");
         ObjectMapper mapper=new ObjectMapper();
         mapper.enable(DeserializationFeature.ACCEPT_FLOAT_AS_INT);
-//        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Deal deal1= mapper.convertValue(dealres,Deal.class);
-        dealRepository.save(deal1);
 
 
         Invoice invoice=new Invoice();

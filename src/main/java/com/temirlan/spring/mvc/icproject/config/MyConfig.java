@@ -2,6 +2,7 @@ package com.temirlan.spring.mvc.icproject.config;
 
 import com.temirlan.spring.mvc.icproject.HttpLoggingFilter;
 //import com.temirlan.spring.mvc.icproject.aspect.LoggingInterceptor;
+import com.temirlan.spring.mvc.icproject.Operations;
 import com.temirlan.spring.mvc.icproject.aspect.LoggingInterceptor;
 import com.temirlan.spring.mvc.icproject.pojo.RunId;
 import com.temirlan.spring.mvc.icproject.repository.RequestLogRepository;
@@ -31,6 +32,7 @@ public class MyConfig {
 
     @Autowired
     private WebLogRepository webLogRepository;
+
 
     @Bean
     public ClientHttpRequestFactory clientHttpRequestFactory(){

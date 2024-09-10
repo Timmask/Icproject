@@ -9,10 +9,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.util.Date;
+
 
 @Component
 @Aspect
@@ -31,7 +28,7 @@ public class LoggingAspect {
         PostMapping post =methodSignature.getMethod().getAnnotation(PostMapping.class);
         requestLog.setEndpoint( "http://localhost:8080" + post.value()[0].toString());
         Object object=new Object();
-        requestLog.setRun_id( String.valueOf(object.hashCode()));
+        requestLog.setRunId( String.valueOf(object.hashCode()));
 //        long now = System.currentTimeMillis();
 //        Date date = new Date(now);
 //        requestLog.setTimestamp(date.toInstant());
