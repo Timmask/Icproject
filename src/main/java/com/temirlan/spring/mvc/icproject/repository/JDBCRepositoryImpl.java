@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class JDBCRepositoryImpl implements JDBCRepository{
@@ -198,7 +199,15 @@ public class JDBCRepositoryImpl implements JDBCRepository{
         return service;
     }
 
+    public Map<String,Object> getCompaniesInfo() {
+        String sql = "SELECT cast( dl.external_id as varchar) as external_id,ic.url FROM deal_enum_UF_CRM_1707120091678 dl \n" +
+                " inner join ic_company_list ic \n" +
+                " on dl.value =ic.company_name ";
+        List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql);
+        return mapList.stream().collect(Collectors.toMap(k -> (String) k.get("external_id"), k -> (String) k.get("url")));
 
+    }
 }
+
 
 

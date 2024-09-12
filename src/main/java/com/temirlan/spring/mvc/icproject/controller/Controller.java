@@ -24,7 +24,7 @@ public class Controller {
     private InvoiceService invoiceService;
 
     @Autowired
-    private  RunId runId;
+    private RunId runId;
 
     @SneakyThrows
     @GetMapping("/")
@@ -33,136 +33,138 @@ public class Controller {
     }
 
     @PostMapping("/webhook")
-    public Map apiWebhook(@RequestBody String message){
-        Map<String,Object> map = new HashMap<>();
-        map.put("result",invoiceService.createInvoice(message));
+    public Map apiWebhook(@RequestBody String message) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("result", invoiceService.createInvoice(message));
         return map;
     }
 
 
     @PostMapping("/get-deal")
-    public String getDeal(@RequestBody String message){
+    public String getDeal(@RequestBody String message) {
 
         return invoiceService.getDeal(message);
     }
 
     @GetMapping("/fields")
-    public Map<String,Object> apiFields() {
+    public Map<String, Object> apiFields() {
 
         return invoiceService.getDealFields();
     }
 
     @PostMapping("/managment-accounting")
-    public Accounting managmentAccounting(@RequestBody  Accounting accounting) {
-        String message="";
+    public Accounting managmentAccounting(@RequestBody Accounting accounting) {
+        String message = "";
         try {
             invoiceService.saveAccounting(accounting);
-            message="Ok";
-        }catch (Exception e){
-            message=e.toString();
+            message = "Ok";
+        } catch (Exception e) {
+            message = e.toString();
         }
         return accounting;
     }
 
     @PostMapping("/bank-payments")
-    public Map<String,Object> bankPaymentsAdd(@RequestBody ArrayList<BankPayment> bankPayments) {
-        Map<String,Object> message = new HashMap<>();
+    public Map<String, Object> bankPaymentsAdd(@RequestBody ArrayList<BankPayment> bankPayments) {
+        Map<String, Object> message = new HashMap<>();
         try {
-            String uid=bankPayments.get(0).getBankStatementUid();
+            String uid = bankPayments.get(0).getBankStatementUid();
             invoiceService.deleteBankPaymentsByUid(uid);
-             invoiceService.saveBankPayment(bankPayments);
-            message.put("result",bankPayments);
+            invoiceService.saveBankPayment(bankPayments);
+            message.put("result", bankPayments);
 //            message.put("async",response);
-        }catch (Exception e){
-            message.put("result",e.toString());
+        } catch (Exception e) {
+            message.put("result", e.toString());
         }
         return message;
     }
 
     @PutMapping("/bank-payments")
-    public Map<String,Object> bankPaymentsUpd(@RequestBody ArrayList<BankPayment> bankPayments) {
-        Map<String,Object> message = new HashMap<>();
+    public Map<String, Object> bankPaymentsUpd(@RequestBody ArrayList<BankPayment> bankPayments) {
+        Map<String, Object> message = new HashMap<>();
         try {
-              invoiceService.saveBankPayment(bankPayments);
-            message.put("result",bankPayments);
+            invoiceService.saveBankPayment(bankPayments);
+            message.put("result", bankPayments);
 //            message.put("async",response);
-        }catch (Exception e){
-            message.put("result",e.toString());
+        } catch (Exception e) {
+            message.put("result", e.toString());
         }
         return message;
     }
+
     @DeleteMapping("/bank-payments")
-    public Map<String,Object> bankPaymentsDlt(@RequestBody ArrayList<Map> bankPaymentsUid) {
-        Map<String,Object> message = new HashMap<>();
+    public Map<String, Object> bankPaymentsDlt(@RequestBody ArrayList<Map> bankPaymentsUid) {
+        Map<String, Object> message = new HashMap<>();
         try {
-            CompletableFuture<List<BankPayment>> bankPaymentList= invoiceService.deleteBankPaymentByUids(bankPaymentsUid);
-            message.put("result",bankPaymentsUid);
-            message.put("async",bankPaymentList);
-        }catch (Exception e){
-            message.put("result",e.toString());
+            CompletableFuture<List<BankPayment>> bankPaymentList = invoiceService.deleteBankPaymentByUids(bankPaymentsUid);
+            message.put("result", bankPaymentsUid);
+            message.put("async", bankPaymentList);
+        } catch (Exception e) {
+            message.put("result", e.toString());
         }
         return message;
     }
 
     @PostMapping("/planned-payments")
-    public Map<String,Object> plannedPaymentsAdd(@RequestBody ArrayList<PlannedPayment> plannedPayments){
-        Map<String,Object> message = new HashMap<>();
+    public Map<String, Object> plannedPaymentsAdd(@RequestBody ArrayList<PlannedPayment> plannedPayments) {
+        Map<String, Object> message = new HashMap<>();
         try {
-            List<PlannedPayment> plannedPaymentArrayList= invoiceService.savePlannedPayments(plannedPayments);
-            message.put("result",plannedPaymentArrayList);
-        }catch (Exception e){
-            message.put("result",e.toString());
+            List<PlannedPayment> plannedPaymentArrayList = invoiceService.savePlannedPayments(plannedPayments);
+            message.put("result", plannedPaymentArrayList);
+        } catch (Exception e) {
+            message.put("result", e.toString());
         }
         return message;
     }
 
     @PutMapping("/planned-payments")
-    public Map<String,Object> plannedPaymentsUpdate(@RequestBody ArrayList<PlannedPayment> plannedPayments){
-        Map<String,Object> message = new HashMap<>();
+    public Map<String, Object> plannedPaymentsUpdate(@RequestBody ArrayList<PlannedPayment> plannedPayments) {
+        Map<String, Object> message = new HashMap<>();
         try {
-            List<PlannedPayment> plannedPaymentArrayList= invoiceService.savePlannedPayments(plannedPayments);
-            message.put("result",plannedPaymentArrayList);
-        }catch (Exception e){
-            message.put("result",e.toString());
+            List<PlannedPayment> plannedPaymentArrayList = invoiceService.savePlannedPayments(plannedPayments);
+            message.put("result", plannedPaymentArrayList);
+        } catch (Exception e) {
+            message.put("result", e.toString());
         }
         return message;
     }
+
     @DeleteMapping("/planned-payments")
-    public Map<String,Object> plannedPaymentsdate(@RequestBody ArrayList<PlannedPayment> plannedPayments){
-        Map<String,Object> message = new HashMap<>();
+    public Map<String, Object> plannedPaymentsdate(@RequestBody ArrayList<PlannedPayment> plannedPayments) {
+        Map<String, Object> message = new HashMap<>();
         try {
             invoiceService.deletePlannedPayments(plannedPayments);
-            message.put("result",plannedPayments);
-        }catch (Exception e){
-            message.put("result",e.toString());
+            message.put("result", plannedPayments);
+        } catch (Exception e) {
+            message.put("result", e.toString());
         }
         return message;
     }
 
     @PostMapping("/income-expenditure")
-    public Map incomeExpenditureAdd(@RequestBody Map<String,Object> objectMap){
-        HashMap<String,Object> map=new HashMap<>();
-        CompletableFuture response=invoiceService.addExpenditureIncome(objectMap);
-        map.put("result",objectMap);
-        map.put("async",response);
+    public Map incomeExpenditureAdd(@RequestBody Map<String, Object> objectMap) {
+        HashMap<String, Object> map = new HashMap<>();
+        CompletableFuture response = invoiceService.addExpenditureIncome(objectMap);
+        map.put("result", objectMap);
+        map.put("async", response);
         return map;
     }
 
     @PutMapping("/income-expenditure")
-    public Map incomeExpenditureUpd(@RequestBody Map<String,Object> objectMap){
-        HashMap<String,Object> map=new HashMap<>();
-        CompletableFuture response= invoiceService.addExpenditureIncome(objectMap);
-        map.put("result",objectMap);
-        map.put("async",response);
+    public Map incomeExpenditureUpd(@RequestBody Map<String, Object> objectMap) {
+        HashMap<String, Object> map = new HashMap<>();
+        CompletableFuture response = invoiceService.addExpenditureIncome(objectMap);
+        map.put("result", objectMap);
+        map.put("async", response);
         return map;
     }
 
     @DeleteMapping("/income-expenditure")
-    public Map incomeExpenditureDel(@RequestBody Map<String,Object> objectMap){
-        HashMap<String,Object> map=new HashMap<>();
-        CompletableFuture response= invoiceService.delExpenditureIncome(objectMap);
-        map.put("result",objectMap);
-        map.put("async",response);
+    public Map incomeExpenditureDel(@RequestBody Map<String, Object> objectMap) {
+        HashMap<String, Object> map = new HashMap<>();
+        CompletableFuture response = invoiceService.delExpenditureIncome(objectMap);
+        map.put("result", objectMap);
+        map.put("async", response);
         return map;
     }
 }

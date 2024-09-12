@@ -31,9 +31,7 @@ public class Communication {
     }
 
     public Map getDeal(String id) {
-        System.err.println(dealUrl+id);
         Map<String,Object> response =restTemplate.getForObject(dealUrl+id,Map.class);
-
         return response;
     }
 
@@ -42,9 +40,7 @@ public class Communication {
         headers.set("Authorization", "Basic QWRtaW46cXdlcnR5");
         headers.set("Content-Type", "application/json;charset=utf-8");
         HttpEntity<Invoice> entity = new HttpEntity<Invoice>(invoice, headers);
-
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(oneCUrl, entity, String.class);
-        System.err.println(responseEntity);
 
         return responseEntity.getBody();
 
