@@ -1,10 +1,6 @@
 package com.temirlan.spring.mvc.icproject.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.temirlan.spring.mvc.icproject.entity.*;
-import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
-import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
-import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
 import com.temirlan.spring.mvc.icproject.pojo.RunId;
 import com.temirlan.spring.mvc.icproject.service.InvoiceService;
 import lombok.SneakyThrows;
@@ -12,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.HashMap;

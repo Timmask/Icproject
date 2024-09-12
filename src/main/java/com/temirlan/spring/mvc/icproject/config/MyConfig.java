@@ -24,7 +24,6 @@ import java.util.List;
 public class MyConfig {
 
 
-
     @Autowired
     private RunId runId;
 
@@ -36,11 +35,12 @@ public class MyConfig {
 
 
     @Bean
-    public ClientHttpRequestFactory clientHttpRequestFactory(){
-        ClientHttpRequestFactory clientHttpRequestFactory =new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
+    public ClientHttpRequestFactory clientHttpRequestFactory() {
+        ClientHttpRequestFactory clientHttpRequestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
 
         return clientHttpRequestFactory;
     }
+
     @Bean("asyncExecutor")
     public ThreadPoolTaskExecutor taskExecutor() {
 
@@ -53,20 +53,22 @@ public class MyConfig {
         executor.initialize();
         return executor;
     }
+
     @Bean
-    public RestTemplate restTemplate(){
-        RestTemplate restTemplate=new RestTemplate(clientHttpRequestFactory());
+    public RestTemplate restTemplate() {
+        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
         List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
         if (CollectionUtils.isEmpty(interceptors)) {
             interceptors = new ArrayList<>();
         }
-        LoggingInterceptor interceptor=new LoggingInterceptor();
+        LoggingInterceptor interceptor = new LoggingInterceptor();
         interceptor.setRunId(runId);
         interceptor.setWebLogRepository(webLogRepository);
         interceptors.add(interceptor);
         restTemplate.setInterceptors(interceptors);
-        return restTemplate ;
+        return restTemplate;
     }
+
     @Bean
     public HttpLoggingFilter requestLoggingFilter() {
         HttpLoggingFilter loggingFilter = new HttpLoggingFilter();
@@ -79,12 +81,13 @@ public class MyConfig {
         loggingFilter.setRunId(runId);
         return loggingFilter;
     }
-    }
+
 
 //    @Bean
-//    public RunId runId(){
-//        RunId runId=new RunId();
+//    public RunId runId() {
+//        RunId runId = new RunId();
 //        runId.setValue(UUID.randomUUID().toString());
 //        return runId;
 //    }
+}
 

@@ -66,7 +66,7 @@ public class InvoiceServiceImp implements InvoiceService{
 //        Deal deal1= mapper.convertValue(dealres,Deal.class);
 //        dealRepository.save(deal1);
         Invoice invoice=new Invoice();
-        if ( dealres.get("STAGE_ID") == "C69:UC_MLMLU7" && dealres.get("CATEGORY_ID")=="69"){
+        if ( dealres.get("STAGE_ID") == "C69:UC_MLMLU7" && dealres.get("CATEGORY_ID")=="69" && dealres.get("UF_CRM_1707120091678")=="77"){
             Consignor consignor =jdbcRepository.getConsignorInfo(id);
             Consignee consignee=jdbcRepository.getConsigneeInfo(id);
             Service service=jdbcRepository.getServiceInfo(id);
