@@ -16,9 +16,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 @org.springframework.stereotype.Service
@@ -53,26 +51,40 @@ public class InvoiceServiceImp implements InvoiceService {
     private IncomeRepository incomeRepository;
 
     @Transactional
-    public Invoice createInvoice(String message) throws HttpServerErrorException {
+    public Map createInvoice(String message) throws HttpServerErrorException {
+        HashMap<String,Object> map = new HashMap<>();
         String id = operations.extractId(message);
         Map<String, Object> deal = communication.getDealById(id);
         Map<String, Object> dealres = (Map<String, Object>) deal.get("result");
         Map<String, Object> companiesMap = jdbcRepository.getCompaniesInfo();
         String dealCompany = dealres.get("UF_CRM_1707120091678").toString();
         Invoice invoice = new Invoice();
+        map.put("result", "invoice not created");
         if (dealres.get("STAGE_ID").equals("C69:UC_MLMLU7") && dealres.get("CATEGORY_ID").equals("69") && companiesMap.containsKey(dealCompany)) {
             System.err.println(companiesMap.get(dealCompany));
-            Consignor consignor = jdbcRepository.getConsignorInfo(id);
-            Consignee consignee = jdbcRepository.getConsigneeInfo(id);
-            Service service = jdbcRepository.getServiceInfo(id);
+            Consignor consignor = null;
+            Consignee consignee = null;
+            Service service=null;
+            try{
+                service= jdbcRepository.getServiceInfo(id);
+                consignor=jdbcRepository.getConsignorInfo(id);
+                consignee=jdbcRepository.getConsigneeInfo(id);
+            }catch (Exception e){
+                String isNds= dealres.get("UF_CRM_1708595011927").toString().equals("28039") ? "НДС": "без НДС";
+                service=new Service(dealres.get("UF_CRM_1724236242").toString(),dealres.get("UF_CRM_1709622025399").toString(),dealres.get("UF_CRM_1707724024179").toString(),dealres.get("UF_CRM_1708515537").toString(),isNds);
+                consignee=new Consignee(dealres.get("UF_CRM_1707149878937").toString(),dealres.get("UF_CRM_1707119819982").toString());
+                consignor=new Consignor(dealres.get("UF_CRM_1707120091678").toString(),dealres.get("UF_CRM_1723444589386").toString());
+            }
+
             serviceRepository.save(service);
             invoice.setConsignee(consignee);
             invoice.setConsignor(consignor);
             invoice.getItems().getServices().add(service);
             System.out.println(invoice);
             String invoiceRes = communication.createInvoice(invoice);
+            map.put("result", invoiceRes);
         }
-        return invoice;
+        return map;
     }
 
     @Transactional

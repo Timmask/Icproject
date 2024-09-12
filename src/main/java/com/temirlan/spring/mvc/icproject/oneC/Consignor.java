@@ -14,4 +14,9 @@ public class Consignor {
     private String countryCode;
     private String name;
     private String tin;
+
+    public Consignor(String name, String tin) {
+        this.name = name;
+        this.tin = tin;
+    }
 }

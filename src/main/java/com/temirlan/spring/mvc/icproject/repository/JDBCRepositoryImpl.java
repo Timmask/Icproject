@@ -11,6 +11,7 @@ import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -25,7 +26,7 @@ public class JDBCRepositoryImpl implements JDBCRepository{
 
     @SneakyThrows
     @Override
-    public Consignee getConsigneeInfo(String id){
+    public Consignee getConsigneeInfo(String id) throws EmptyResultDataAccessException{
         String script =String.format("select uf_Crm_1707149878937 as name , uf_Crm_1707119819982 as  tin  from deal d where external_id = %s",id);
         Consignee consignee= jdbcTemplate.queryForObject(script, new ConsigneeMapper());
 
@@ -34,7 +35,7 @@ public class JDBCRepositoryImpl implements JDBCRepository{
 
     @SneakyThrows
     @Override
-    public Consignor getConsignorInfo(String id) {
+    public Consignor getConsignorInfo(String id) throws EmptyResultDataAccessException  {
 
         String script=String.format("select  dl.value  as name , d.UF_CRM_1723444589386 as tin  from deal d " +
                 "left join deal_enum_UF_CRM_1707120091678 dl " +
@@ -187,13 +188,13 @@ public class JDBCRepositoryImpl implements JDBCRepository{
                             rs.getString(21)));
     }
 
-    public Service getServiceInfo(String id ){
-        String sql=String.format("SELECT d.UF_CRM_1724236242 \"article\" , d.UF_CRM_1707724024179 as \"square\" ,d.UF_CRM_1709622025399 \"sum\", d2.value as \"nds\" , d3.value \"address\" from deal d \n" +
+    public Service getServiceInfo(String id ) throws EmptyResultDataAccessException {
+        String sql="SELECT d.UF_CRM_1724236242 \"article\" , d.UF_CRM_1707724024179 as \"square\" ,d.UF_CRM_1709622025399 \"sum\", d2.value as \"nds\" , d3.value \"address\" from deal d \n" +
                 "left join deal_enum_UF_CRM_1708595011927 d2\n" +
                 "on convert(varchar(10),d2.external_id)=d.UF_CRM_1708595011927\n" +
                 "left join deal_enum_uf_crm_1708515537 d3\n" +
                 "on convert(varchar(10),d3.external_id)=d.uf_crm_1708515537\n" +
-                "where d.external_id= %s ",id);
+                "where d.external_id= "+id;
         System.out.println(sql);
         Service service= jdbcTemplate.queryForObject(sql, new ServiceMapper());
         return service;

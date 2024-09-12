@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public interface InvoiceService {
-    public Invoice createInvoice(String message);
+    public Map createInvoice(String message);
     public Map<String,Object> getDealFields();
     public void saveAccounting(Accounting accounting);
     public void saveBankPayment(ArrayList<BankPayment> bankPayment);

@@ -10,9 +10,8 @@ public class ConsignorMapper implements RowMapper<Consignor> {
 
     @Override
     public Consignor mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Consignor consignor=new Consignor();
-        consignor.setName(rs.getString("name"));
-        consignor.setTin(rs.getString("tin"));
-        return consignor;
+        String name =rs.getString("name");
+        String tin =rs.getString("tin");
+        return new Consignor(name,tin);
     }
 }

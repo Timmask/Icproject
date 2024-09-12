@@ -24,6 +24,7 @@ public class Communication {
     private final String oneCUrl="https://icgroup.itsg.kz/webserver_ic_line_test/hs/invoice";
 
     public  Map<String,Object> getDealById(String id) {
+        System.out.println(dealUrl+id);
         Map<String,Object> response =restTemplate.getForObject(dealUrl+id,Map.class);
         return response;
     }

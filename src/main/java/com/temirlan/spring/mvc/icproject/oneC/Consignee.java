@@ -15,4 +15,8 @@ public class Consignee {
     private String name;
     private String tin;
 
+    public Consignee(String name, String tin) {
+        this.name = name;
+        this.tin = tin;
+    }
 }

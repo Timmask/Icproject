@@ -19,8 +19,6 @@ public class HttpLoggingFilter extends AbstractRequestLoggingFilter {
 
     private RunId runId;
 
-
-
     @SneakyThrows
     @Override
     protected void beforeRequest(HttpServletRequest request, String message) {

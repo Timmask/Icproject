@@ -43,4 +43,30 @@ public class Service {
     public String unitNomenclature;
     @Column(name="unit_price")
     public String unitPrice;
+
+    public Service(String article, String priceWithoutTax, String quantity, String description,String isNds) {
+        Double sum= Double.valueOf(priceWithoutTax);
+        Double square  = Double.valueOf(quantity);
+        Double unitPrice=sum/square;
+        Double sumtax=sum;
+        String nds="0";
+        Double ndsAmount=0.0;
+        if(isNds.equals("НДС")){
+            sumtax=sum*0.88;
+            nds="12";
+            ndsAmount=sum*0.12;
+        }
+        this.article = article;
+        this.priceWithTax=sum.toString();
+        this.priceWithoutTax=sumtax.toString();
+        this.quantity = quantity;
+        this.ndsAmount=ndsAmount.toString();
+        this.ndsRate=nds;
+        this.turnoverSize=sumtax.toString();
+        this.unitCode="6208601100";
+        this.unitNomenclature="услуга";
+        this.unitPrice=unitPrice.toString();
+        this.description = description;
+
+    }
 }

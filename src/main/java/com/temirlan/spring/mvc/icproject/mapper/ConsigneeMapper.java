@@ -11,9 +11,8 @@ public class ConsigneeMapper implements RowMapper<Consignee> {
 
     @Override
     public Consignee mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Consignee consignee=new Consignee();
-        consignee.setName(rs.getString("name"));
-        consignee.setTin(rs.getString("tin"));
-        return consignee;
+        String name =rs.getString("name");
+        String tin=rs.getString("tin");
+        return new Consignee(name,tin);
     }
 }
