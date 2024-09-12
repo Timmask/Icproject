@@ -70,8 +70,9 @@ public class InvoiceServiceImp implements InvoiceService {
                 consignor=jdbcRepository.getConsignorInfo(id);
                 consignee=jdbcRepository.getConsigneeInfo(id);
             }catch (Exception e){
+                String address=jdbcRepository.getDealAddress(id);
                 String isNds= dealres.get("UF_CRM_1708595011927").toString().equals("28039") ? "НДС": "без НДС";
-                service=new Service(dealres.get("UF_CRM_1724236242").toString(),dealres.get("UF_CRM_1709622025399").toString(),dealres.get("UF_CRM_1707724024179").toString(),dealres.get("UF_CRM_1708515537").toString(),isNds);
+                service=new Service(dealres.get("UF_CRM_1724236242").toString(),dealres.get("UF_CRM_1709622025399").toString(),dealres.get("UF_CRM_1707724024179").toString(),address.toString(),isNds);
                 consignee=new Consignee(dealres.get("UF_CRM_1707149878937").toString(),dealres.get("UF_CRM_1707119819982").toString());
                 consignor=new Consignor(dealres.get("UF_CRM_1707120091678").toString(),dealres.get("UF_CRM_1723444589386").toString());
             }

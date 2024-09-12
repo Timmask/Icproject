@@ -188,6 +188,12 @@ public class JDBCRepositoryImpl implements JDBCRepository{
                             rs.getString(21)));
     }
 
+    public String getDealAddress(String id){
+        String sql="SELECT value as \"address\" FROM deal_enum_uf_crm_1708515537 where external_id="+id;
+        String address=jdbcTemplate.queryForObject(sql,String.class);
+        return address;
+    }
+
     public Service getServiceInfo(String id ) throws EmptyResultDataAccessException {
         String sql="SELECT d.UF_CRM_1724236242 \"article\" , d.UF_CRM_1707724024179 as \"square\" ,d.UF_CRM_1709622025399 \"sum\", d2.value as \"nds\" , d3.value \"address\" from deal d \n" +
                 "left join deal_enum_UF_CRM_1708595011927 d2\n" +
