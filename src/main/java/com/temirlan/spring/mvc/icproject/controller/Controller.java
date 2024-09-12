@@ -36,6 +36,7 @@ public class Controller {
     public String index() {
         return Inet4Address.getLocalHost().getHostAddress();
     }
+
     @PostMapping("/webhook")
     public Map apiWebhook(@RequestBody String message){
         Map<String,Object> map = new HashMap<>();
@@ -74,9 +75,9 @@ public class Controller {
         try {
             String uid=bankPayments.get(0).getBankStatementUid();
             invoiceService.deleteBankPaymentsByUid(uid);
-            CompletableFuture<List<BankPayment>> response= invoiceService.saveBankPayment(bankPayments);
+             invoiceService.saveBankPayment(bankPayments);
             message.put("result",bankPayments);
-            message.put("async",response);
+//            message.put("async",response);
         }catch (Exception e){
             message.put("result",e.toString());
         }
@@ -87,9 +88,9 @@ public class Controller {
     public Map<String,Object> bankPaymentsUpd(@RequestBody ArrayList<BankPayment> bankPayments) {
         Map<String,Object> message = new HashMap<>();
         try {
-            CompletableFuture<List<BankPayment>> response= invoiceService.saveBankPayment(bankPayments);
+              invoiceService.saveBankPayment(bankPayments);
             message.put("result",bankPayments);
-            message.put("async",response);
+//            message.put("async",response);
         }catch (Exception e){
             message.put("result",e.toString());
         }

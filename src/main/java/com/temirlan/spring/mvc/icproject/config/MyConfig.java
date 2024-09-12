@@ -1,5 +1,6 @@
 package com.temirlan.spring.mvc.icproject.config;
 
+import com.temirlan.spring.mvc.icproject.HttpLoggingFilter;
 import com.temirlan.spring.mvc.icproject.aspect.LoggingInterceptor;
 import com.temirlan.spring.mvc.icproject.pojo.RunId;
 import com.temirlan.spring.mvc.icproject.repository.RequestLogRepository;
@@ -14,10 +15,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 @Configuration
 @ComponentScan("com.temirlan.spring.mvc.icproject")
@@ -25,17 +24,7 @@ import java.util.concurrent.Executor;
 public class MyConfig {
 
 
-    @Bean(name = "asyncExecutor")
-    public Executor asyncExecutor()  {
 
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(3);
-        executor.setMaxPoolSize(3);
-        executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("AsynchThread-");
-        executor.initialize();
-        return executor;
-    }
     @Autowired
     private RunId runId;
 
@@ -52,7 +41,18 @@ public class MyConfig {
 
         return clientHttpRequestFactory;
     }
+    @Bean("asyncExecutor")
+    public ThreadPoolTaskExecutor taskExecutor() {
 
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(2);
+        executor.setMaxPoolSize(2);
+        executor.setQueueCapacity(500);
+        executor.setThreadNamePrefix("MyAsyncThread-");
+        executor.setRejectedExecutionHandler((r, executor1) -> System.err.println("Task rejected, thread pool is full and queue is also full"));
+        executor.initialize();
+        return executor;
+    }
     @Bean
     public RestTemplate restTemplate(){
         RestTemplate restTemplate=new RestTemplate(clientHttpRequestFactory());
@@ -67,18 +67,18 @@ public class MyConfig {
         restTemplate.setInterceptors(interceptors);
         return restTemplate ;
     }
-//    @Bean
-//    public HttpLoggingFilter requestLoggingFilter() {
-//        HttpLoggingFilter loggingFilter = new HttpLoggingFilter();
-//        loggingFilter.setIncludeClientInfo(true);
-//        loggingFilter.setIncludeQueryString(true);
-//        loggingFilter.setIncludePayload(true);
-//        loggingFilter.setMaxPayloadLength(64000);
-//        loggingFilter.setIncludeHeaders(true);
-//        loggingFilter.setRequestLogRepository(requestLogRepository);
-//        loggingFilter.setRunId(runId);
-//        return loggingFilter;
-
+    @Bean
+    public HttpLoggingFilter requestLoggingFilter() {
+        HttpLoggingFilter loggingFilter = new HttpLoggingFilter();
+        loggingFilter.setIncludeClientInfo(true);
+        loggingFilter.setIncludeQueryString(true);
+        loggingFilter.setIncludePayload(true);
+        loggingFilter.setMaxPayloadLength(64000);
+        loggingFilter.setIncludeHeaders(true);
+        loggingFilter.setRequestLogRepository(requestLogRepository);
+        loggingFilter.setRunId(runId);
+        return loggingFilter;
+    }
     }
 
 //    @Bean

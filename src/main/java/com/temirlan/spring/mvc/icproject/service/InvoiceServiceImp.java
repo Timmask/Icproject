@@ -186,9 +186,8 @@ public class InvoiceServiceImp implements InvoiceService{
 
     @Override
     @Async("asyncExecutor")
-    public CompletableFuture<List<BankPayment>> saveBankPayment(ArrayList<BankPayment> bankPayment) {
-            return CompletableFuture.completedFuture(bankPaymentRepository.saveAll(bankPayment));
-
+    public void saveBankPayment(ArrayList<BankPayment> bankPayment) {
+           bankPaymentRepository.saveAll(bankPayment);
     }
 
 
