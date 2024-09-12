@@ -60,7 +60,7 @@ public class InvoiceServiceImp implements InvoiceService {
         Map<String, Object> companiesMap = jdbcRepository.getCompaniesInfo();
         String dealCompany = dealres.get("UF_CRM_1707120091678").toString();
         Invoice invoice = new Invoice();
-        if (dealres.get("STAGE_ID") == "C69:UC_MLMLU7" && dealres.get("CATEGORY_ID") == "69" && companiesMap.containsKey(dealCompany)) {
+        if (dealres.get("STAGE_ID").equals("C69:UC_MLMLU7") && dealres.get("CATEGORY_ID").equals("69") && companiesMap.containsKey(dealCompany)) {
             System.err.println(companiesMap.get(dealCompany));
             Consignor consignor = jdbcRepository.getConsignorInfo(id);
             Consignee consignee = jdbcRepository.getConsigneeInfo(id);
@@ -69,6 +69,7 @@ public class InvoiceServiceImp implements InvoiceService {
             invoice.setConsignee(consignee);
             invoice.setConsignor(consignor);
             invoice.getItems().getServices().add(service);
+            System.out.println(invoice);
             String invoiceRes = communication.createInvoice(invoice);
         }
         return invoice;

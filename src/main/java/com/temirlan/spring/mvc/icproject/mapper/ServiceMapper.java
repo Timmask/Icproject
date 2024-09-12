@@ -40,6 +40,7 @@ public class ServiceMapper implements RowMapper<Service> {
         service.setUnitNomenclature("услуга");
         service.setUnitPrice(unitPrice.toString());
         service.setDescription(rs.getString("address"));
+        System.out.println(service);
         return service;
     }
 }
