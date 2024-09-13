@@ -9,7 +9,6 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 
-
 @Getter
 @Setter
 public class HttpLoggingFilter extends AbstractRequestLoggingFilter {
@@ -37,6 +36,7 @@ public class HttpLoggingFilter extends AbstractRequestLoggingFilter {
         requestLog.setBody(message);
         requestLogRepository.save(requestLog);
     }
+
 
 
 }

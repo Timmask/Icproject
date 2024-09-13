@@ -15,7 +15,9 @@ public class ServiceMapper implements RowMapper<Service> {
         String sumStr=rs.getString("sum") != null ? rs.getString("sum") : "1";
         String squareStr=rs.getString("square") != null ? rs.getString("square") : "1";
         String address=rs.getString("address");
-
-        return new Service(art ,sumStr,squareStr,address,isNds);
+        String service=rs.getString("service_name");
+        String month=rs.getString("month");
+        String description=service+" \n "+address + " за "+ month;
+        return new Service(art ,sumStr,squareStr,description,isNds,service);
     }
 }

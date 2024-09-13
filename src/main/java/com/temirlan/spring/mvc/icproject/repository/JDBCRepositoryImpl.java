@@ -188,18 +188,26 @@ public class JDBCRepositoryImpl implements JDBCRepository{
                             rs.getString(21)));
     }
 
-    public String getDealAddress(String id){
-        String sql="SELECT value as \"address\" FROM deal_enum_uf_crm_1708515537 where external_id="+id;
-        String address=jdbcTemplate.queryForObject(sql,String.class);
-        return address;
+    public String getDealService(String external_id){
+        String sql="SELECT value FROM deal_enum_UF_CRM_1724236125 deuc " +
+                "where external_id= "+external_id;
+        String serviceName=jdbcTemplate.queryForObject(sql,String.class);
+        return serviceName;
     }
 
     public Service getServiceInfo(String id ) throws EmptyResultDataAccessException {
-        String sql="SELECT d.UF_CRM_1724236242 \"article\" , d.UF_CRM_1707724024179 as \"square\" ,d.UF_CRM_1709622025399 \"sum\", d2.value as \"nds\" , d3.value \"address\" from deal d \n" +
+        String sql="SELECT coalesce(d.UF_CRM_1724236242  , '002') as  \"article\" , \n" +
+                "coalesce(d.UF_CRM_1707724024179 , '1') as \"square\",\n" +
+                "coalesce(d.UF_CRM_1709622025399  ,'1') as \"sum\",\n" +
+                "coalesce(d2.value , '1') as \"nds\" , \n" +
+                "d.UF_CRM_1725356067981 \"address\" ,\n" +
+                "d4.value \"service_name\",\n" +
+                "d.UF_CRM_1711371065591 \"month\"\n" +
+                "from deal d \n" +
                 "left join deal_enum_UF_CRM_1708595011927 d2\n" +
                 "on convert(varchar(10),d2.external_id)=d.UF_CRM_1708595011927\n" +
-                "left join deal_enum_uf_crm_1708515537 d3\n" +
-                "on convert(varchar(10),d3.external_id)=d.uf_crm_1708515537\n" +
+                "left join deal_enum_UF_CRM_1724236125 d4\n" +
+                "on convert(varchar(10),d4.external_id)=UF_CRM_1724236125\n" +
                 "where d.external_id= "+id;
         System.out.println(sql);
         Service service= jdbcTemplate.queryForObject(sql, new ServiceMapper());

@@ -44,7 +44,7 @@ public class Service {
     @Column(name="unit_price")
     public String unitPrice;
 
-    public Service(String article, String priceWithoutTax, String quantity, String description,String isNds) {
+    public Service(String article, String priceWithoutTax, String quantity, String description,String isNds,String name) {
         Double sum= Double.valueOf(priceWithoutTax);
         Double square  = Double.valueOf(quantity);
         Double unitPrice=sum/square;

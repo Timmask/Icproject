@@ -17,5 +17,5 @@ public interface JDBCRepository {
     public List<InvoiceBi> getInvoicesList(Integer count);
     public Service getServiceInfo(String id );
     public Map<String,Object> getCompaniesInfo();
-    public String getDealAddress(String id);
+    public String getDealService(String id);
 }
