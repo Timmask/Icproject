@@ -46,7 +46,6 @@ public class JDBCRepositoryImpl implements JDBCRepository{
         return consignor;
     }
 
-
     public List<ImplementationBi> getAllImplementation(Integer count ) {
         String sql = "select ds.\"name\" as \"Стадия сделки\" , d.opportunity  \"Сумма\"  , d.currency_id as \"Валюта\" , u.last_name || '' || u.\"name\" as \"Ответственный\"  , c.title as \"Компания\" , d1.value \"Наименование ИП обновленный\" , d2.value \"Адрес объекта\" , d3.value as \"Компания исполнитель IC\" ,\n" +
                 "d4.value as \"Город\" , d.UF_CRM_1707724024179 as \"Площадь\" , d.UF_CRM_1708313343142 as \"Сумма договора по объекту\", d.UF_CRM_1708321214833 as \"Реализация для ИП\"  , d.UF_CRM_1708334626443 \"Сумма штрафа\", d5.value as \"Процентная ставка ИП Список\" , d6.value \"Компания IC НДС/без НДС\" , d7.value as \"ИП НДС/Без НДС\" , d.UF_CRM_19_1712160694051 as \"Факт реализации\" , d.UF_CRM_1709731780880 as \"Доп. работы\" ,\n" +

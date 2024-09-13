@@ -16,11 +16,13 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 @org.springframework.stereotype.Service
 public class InvoiceServiceImp implements InvoiceService {
+
     @Autowired
     public Operations operations;
     @Autowired
@@ -71,7 +73,7 @@ public class InvoiceServiceImp implements InvoiceService {
                 consignee=jdbcRepository.getConsigneeInfo(id);
             }catch (Exception e){
                 String serviceName=jdbcRepository.getDealService(dealres.get("UF_CRM_1724236125").toString());
-                String description=serviceName +" \n " +dealres.get("UF_CRM_1725356067981").toString() + " за "+ dealres.get("UF_CRM_1711371065591");
+                String description=serviceName +" \n " +dealres.get("UF_CRM_1725356067981").toString() + " за "+ operations.getCalendarMonth(dealres.get("UF_CRM_1711371065591").toString());
                 String isNds= dealres.get("UF_CRM_1708595011927").toString().equals("28039") ? "НДС": "без НДС";
                 service=new Service(dealres.get("UF_CRM_1724236242").toString()
                         ,dealres.get("UF_CRM_1709622025399").toString()
@@ -91,6 +93,8 @@ public class InvoiceServiceImp implements InvoiceService {
         }
         return map;
     }
+
+
 
     @Transactional
     public String getDeal(String message) {
