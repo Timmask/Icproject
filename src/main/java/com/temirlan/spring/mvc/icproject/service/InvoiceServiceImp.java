@@ -1,6 +1,6 @@
 package com.temirlan.spring.mvc.icproject.service;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.temirlan.spring.mvc.icproject.Operations;
 import com.temirlan.spring.mvc.icproject.entity.*;
@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
-
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -51,6 +49,9 @@ public class InvoiceServiceImp implements InvoiceService {
 
     @Autowired
     private IncomeRepository incomeRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     @Transactional
     public Map createInvoice(String message) throws HttpServerErrorException {
@@ -189,6 +190,22 @@ public class InvoiceServiceImp implements InvoiceService {
         return CompletableFuture.completedFuture(objectMap);
     }
 
+    @Transactional
+    @Override
+    public List<Payment> addPayments(List<Payment> paymentList) {
+        return paymentRepository.saveAll(paymentList);
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public List<Payment> deletePayments(List<String> paymentList) {
+        List<Payment> payments=new ArrayList<>();
+        for(String uid:paymentList){
+            payments.addAll(paymentRepository.deleteAllByPaymentOrderUid(uid));
+        }
+        return payments;
+    }
 
     @Transactional
     public Map<String, Object> getDealFields() {
@@ -259,6 +276,3 @@ public class InvoiceServiceImp implements InvoiceService {
 
 
 }
-//
-//t=error code=H12 desc="Request timeout" method=POST path="/api/bank-payments" host=icdatabase-556b334c01d9.herokuapp.com request_id=e923e593-991e-439e-819f-f4ecf4aa9b0a fwd="79.143.23.52" dyno=web.1 connect=0ms service=30324ms status=503 bytes=0 protocol=https
-//2024-09-10T12:48:46.896345+00:00 app[web.1]: 2024-09-10T12:48:46.896Z  WARN 2 --- [Icproject] [io-44023-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to write: java.io.IOException: Broken pipe]

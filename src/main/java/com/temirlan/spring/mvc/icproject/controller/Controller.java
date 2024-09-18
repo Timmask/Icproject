@@ -7,6 +7,7 @@ import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.net.Inet4Address;
 import java.util.ArrayList;
@@ -171,9 +172,38 @@ public class Controller {
 
 
     @PostMapping("/payments")
-    public Map addPayments(@RequestBody List<Map<String,Object>> list){
+    public Map addPayments(@RequestBody List<Payment> paymentList){
         Map<String,Object> map1=new HashMap<>();
-        map1.put("result","Ok");
+        try {
+            List<Payment> payments= invoiceService.addPayments(paymentList);
+            map1.put("result",payments);
+        }catch (Exception e){
+            map1.put("result",e);
+        }
+
+        return map1;
+    }
+    @PutMapping("/payments")
+    public Map putPayments(@RequestBody List<Payment> paymentList){
+        Map<String,Object> map1=new HashMap<>();
+        try {
+            List<Payment> payments= invoiceService.addPayments(paymentList);
+            map1.put("result",payments);
+        }catch (Exception e){
+            map1.put("result",e);
+        }
+
+        return map1;
+    }
+    @DeleteMapping("/payments")
+    public Map deletePayments(@RequestBody List<String> paymentUidList){
+        Map<String,Object> map1=new HashMap<>();
+        try {
+            List<Payment> payments= invoiceService.deletePayments(paymentUidList);
+            map1.put("result",payments);
+        }catch (Exception e){
+            map1.put("result",e);
+        }
 
         return map1;
     }

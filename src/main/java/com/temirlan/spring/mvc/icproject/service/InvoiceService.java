@@ -2,6 +2,7 @@ package com.temirlan.spring.mvc.icproject.service;
 
 import com.temirlan.spring.mvc.icproject.entity.Accounting;
 import com.temirlan.spring.mvc.icproject.entity.BankPayment;
+import com.temirlan.spring.mvc.icproject.entity.Payment;
 import com.temirlan.spring.mvc.icproject.entity.PlannedPayment;
 import com.temirlan.spring.mvc.icproject.oneC.Invoice;
 import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
@@ -29,4 +30,6 @@ public interface InvoiceService {
     public void deletePlannedPayments(ArrayList<PlannedPayment> plannedPayments);
     public CompletableFuture<Map> addExpenditureIncome(Map<String,Object> objectMap);
     public CompletableFuture<Map> delExpenditureIncome(Map<String, Object> objectMap);
+    public List<Payment> addPayments(List<Payment> paymentList);
+    public List<Payment> deletePayments(List<String> paymentList);
 }
