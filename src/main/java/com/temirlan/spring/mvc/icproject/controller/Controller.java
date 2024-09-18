@@ -204,10 +204,10 @@ public class Controller {
         return response;
     }
     @DeleteMapping("/payments")
-    public ResponseEntity<Map> deletePayments(@RequestBody Map<String,String> paymentUid){
+    public ResponseEntity<Map> deletePayments(@RequestBody Map<String,Object> paymentUid){
         ResponseEntity<Map> response=null;
         try {
-            Payment paymentRes= invoiceService.deletePayment(paymentUid);
+            List<Payment> paymentRes= invoiceService.deletePayment(paymentUid);
             Map<String,Object> resultMap=new HashMap<>();
             resultMap.put("result",paymentRes);
             response=new ResponseEntity<>(resultMap, HttpStatus.OK);

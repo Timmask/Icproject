@@ -199,8 +199,8 @@ public class InvoiceServiceImp implements InvoiceService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Payment deletePayment(Map<String,String> paymentUid) {
-        return paymentRepository.deletePaymentByPaymentOrderUid(paymentUid.get("paymentOrderUID"));
+    public List<Payment> deletePayment(Map<String,Object> paymentUid) {
+        return paymentRepository.deleteAllByPaymentOrderUid(paymentUid.get("paymentOrderUID").toString());
     }
 
     @Transactional

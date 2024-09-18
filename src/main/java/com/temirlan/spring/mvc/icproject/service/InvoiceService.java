@@ -30,5 +30,5 @@ public interface InvoiceService {
     public CompletableFuture<Map> addExpenditureIncome(Map<String,Object> objectMap);
     public CompletableFuture<Map> delExpenditureIncome(Map<String, Object> objectMap);
     public Payment savePayment(Payment payment);
-    public Payment deletePayment(Map<String,String> paymentUid);
+    public List<Payment> deletePayment(Map<String,Object> paymentUid);
 }
