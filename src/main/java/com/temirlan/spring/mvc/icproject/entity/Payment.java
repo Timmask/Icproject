@@ -71,7 +71,7 @@ public class Payment {
     @JsonProperty(value="debit")
     private String debit;
 
-    @Column(name = "credit", nullable = false)
+    @Column(name = "credit" )
     @JsonProperty(value="credit")
     private Integer credit;
 
@@ -79,7 +79,7 @@ public class Payment {
     @JsonProperty(value="purposeOfPayment")
     private String purposeOfPayment;
 
-    @Column(name = "rate", nullable = false)
+    @Column(name = "rate" )
     @JsonProperty(value="rate")
     private Integer rate;
 
