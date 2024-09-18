@@ -171,7 +171,7 @@ public class Controller {
 
 
     @PostMapping("/payments")
-    public Map addPayments(@RequestBody Map<String,Object> map){
+    public Map addPayments(@RequestBody List<Map<String,Object>> list){
         Map<String,Object> map1=new HashMap<>();
         map1.put("result","Ok");
 
