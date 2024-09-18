@@ -36,7 +36,6 @@ public class Operations {
 
             }
         }
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         month= new SimpleDateFormat("MMMM yyyy", new Locale("ru")).format(cal.getTime());

@@ -167,5 +167,15 @@ public class Controller {
         map.put("async", response);
         return map;
     }
+
+
+
+    @PostMapping("/payments")
+    public Map addPayments(@RequestBody Map<String,Object> map){
+        Map<String,Object> map1=new HashMap<>();
+        map1.put("result","Ok");
+
+        return map1;
+    }
 }
 
