@@ -196,7 +196,7 @@ public class Controller {
         return map1;
     }
     @DeleteMapping("/payments")
-    public Map deletePayments(@RequestBody List<String> paymentUidList){
+    public Map deletePayments(@RequestBody List<Map<String,String>> paymentUidList){
         Map<String,Object> map1=new HashMap<>();
         try {
             List<Payment> payments= invoiceService.deletePayments(paymentUidList);

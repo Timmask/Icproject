@@ -199,10 +199,10 @@ public class InvoiceServiceImp implements InvoiceService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public List<Payment> deletePayments(List<String> paymentList) {
+    public List<Payment> deletePayments(List<Map<String,String>> paymentList) {
         List<Payment> payments=new ArrayList<>();
-        for(String uid:paymentList){
-            payments.addAll(paymentRepository.deleteAllByPaymentOrderUid(uid));
+        for(Map<String,String> uid:paymentList){
+            payments.addAll(paymentRepository.deleteAllByPaymentOrderUid(uid.get("paymentOrderUID")));
         }
         return payments;
     }
