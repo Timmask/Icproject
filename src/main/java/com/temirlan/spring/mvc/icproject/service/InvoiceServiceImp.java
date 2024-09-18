@@ -192,19 +192,15 @@ public class InvoiceServiceImp implements InvoiceService {
 
     @Transactional
     @Override
-    public List<Payment> addPayments(List<Payment> paymentList) {
-        return paymentRepository.saveAll(paymentList);
+    public Payment savePayment(Payment payment) {
+        return paymentRepository.save(payment);
     }
 
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public List<Payment> deletePayments(List<Map<String,String>> paymentList) {
-        List<Payment> payments=new ArrayList<>();
-        for(Map<String,String> uid:paymentList){
-            payments.addAll(paymentRepository.deleteAllByPaymentOrderUid(uid.get("paymentOrderUID")));
-        }
-        return payments;
+    public Payment deletePayment(Map<String,String> paymentUid) {
+        return paymentRepository.deletePaymentByPaymentOrderUid(paymentUid.get("paymentOrderUID"));
     }
 
     @Transactional

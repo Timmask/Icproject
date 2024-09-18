@@ -1,12 +1,14 @@
 package com.temirlan.spring.mvc.icproject.controller;
 
 import com.temirlan.spring.mvc.icproject.entity.*;
+import com.temirlan.spring.mvc.icproject.exception_handling.IncorrectPaymentException;
 import com.temirlan.spring.mvc.icproject.pojo.RunId;
 import com.temirlan.spring.mvc.icproject.service.InvoiceService;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.net.Inet4Address;
@@ -172,40 +174,49 @@ public class Controller {
 
 
     @PostMapping("/payments")
-    public Map addPayments(@RequestBody List<Payment> paymentList){
-        Map<String,Object> map1=new HashMap<>();
+    public ResponseEntity<Map> addPayments(@RequestBody Payment payment){
+        ResponseEntity<Map> response=null;
         try {
-            List<Payment> payments= invoiceService.addPayments(paymentList);
-            map1.put("result",payments);
+            Payment paymentRes= invoiceService.savePayment(payment);
+            Map<String,Object> resultMap=new HashMap<>();
+            resultMap.put("result",paymentRes);
+            response=new ResponseEntity<>(resultMap, HttpStatus.OK);
         }catch (Exception e){
-            map1.put("result",e);
+            System.err.println(e.getMessage());
+            throw new IncorrectPaymentException(e.getMessage());
         }
 
-        return map1;
+        return response;
     }
     @PutMapping("/payments")
-    public Map putPayments(@RequestBody List<Payment> paymentList){
-        Map<String,Object> map1=new HashMap<>();
+    public ResponseEntity<Map> putPayments(@RequestBody Payment payment){
+        ResponseEntity<Map> response=null;
         try {
-            List<Payment> payments= invoiceService.addPayments(paymentList);
-            map1.put("result",payments);
+            Payment paymentRes= invoiceService.savePayment(payment);
+            Map<String,Object> resultMap=new HashMap<>();
+            resultMap.put("result",paymentRes);
+            response=new ResponseEntity<>(resultMap, HttpStatus.OK);
         }catch (Exception e){
-            map1.put("result",e);
+            System.err.println(e.getMessage());
+            throw new IncorrectPaymentException(e.getMessage());
         }
 
-        return map1;
+        return response;
     }
     @DeleteMapping("/payments")
-    public Map deletePayments(@RequestBody List<Map<String,String>> paymentUidList){
-        Map<String,Object> map1=new HashMap<>();
+    public ResponseEntity<Map> deletePayments(@RequestBody Map<String,String> paymentUid){
+        ResponseEntity<Map> response=null;
         try {
-            List<Payment> payments= invoiceService.deletePayments(paymentUidList);
-            map1.put("result",payments);
+            Payment paymentRes= invoiceService.deletePayment(paymentUid);
+            Map<String,Object> resultMap=new HashMap<>();
+            resultMap.put("result",paymentRes);
+            response=new ResponseEntity<>(resultMap, HttpStatus.OK);
         }catch (Exception e){
-            map1.put("result",e);
+            System.err.println(e.getMessage());
+            throw new IncorrectPaymentException(e.getMessage());
         }
 
-        return map1;
+        return response;
     }
 }
 

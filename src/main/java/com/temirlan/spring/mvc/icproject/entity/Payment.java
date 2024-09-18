@@ -15,7 +15,7 @@ public class Payment {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "payment_order_uid", nullable = false, length = 50)
+    @Column(name = "payment_order_uid", nullable = false )
     @JsonProperty(value="paymentOrderUID")
     private String paymentOrderUid;
 
@@ -27,15 +27,15 @@ public class Payment {
     @JsonProperty(value="CounterpartyBIN")
     private String counterpartyBin;
 
-    @Column(name = "payment_order_date", nullable = false, length = 30)
+    @Column(name = "payment_order_date", nullable = false )
     @JsonProperty(value="paymentOrderDate")
     private String paymentOrderDate;
 
-    @Column(name = "payment_order_number", nullable = false, length = 10)
+    @Column(name = "payment_order_number", nullable = false )
     @JsonProperty(value="paymentOrderNumber")
     private String paymentOrderNumber;
 
-    @Column(name = "sender_name", nullable = false, length = 30)
+    @Column(name = "sender_name", nullable = false )
     @JsonProperty(value="senderName")
     private String senderName;
 
@@ -47,11 +47,11 @@ public class Payment {
     @JsonProperty(value="senderIIk")
     private String senderIik;
 
-    @Column(name = "sender_bik", nullable = false, length = 30)
+    @Column(name = "sender_bik", nullable = false )
     @JsonProperty(value="senderBIK")
     private String senderBik;
 
-    @Column(name = "receiver_name", nullable = false, length = 20)
+    @Column(name = "receiver_name", nullable = false )
     @JsonProperty(value="receiverName")
     private String receiverName;
 
