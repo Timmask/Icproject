@@ -203,6 +203,15 @@ public class InvoiceServiceImp implements InvoiceService {
         return paymentRepository.deleteAllByPaymentOrderUid(paymentUid.get("paymentOrderUID").toString());
     }
 
+    @Override
+    public List<Payment> getPayments(List<Map<String, Object>> paymentUidList) {
+        List<Payment> list=new ArrayList<>();
+        for(Map paymentUid:paymentUidList){
+            list.addAll(paymentRepository.findAllByPaymentOrderUid(paymentUid.get("paymentOrderUID").toString()));
+        }
+        return list;
+    }
+
     @Transactional
     public Map<String, Object> getDealFields() {
         return communication.getDealFields();

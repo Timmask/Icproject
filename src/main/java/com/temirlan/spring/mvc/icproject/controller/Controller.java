@@ -218,5 +218,22 @@ public class Controller {
 
         return response;
     }
+
+
+    @PostMapping("/get-payments")
+    public ResponseEntity<Map> deletePayments(@RequestBody List<Map<String,Object>> paymentUidList){
+        ResponseEntity<Map> response=null;
+        try {
+            List<Payment> paymentRes= invoiceService.getPayments(paymentUidList);
+            Map<String,Object> resultMap=new HashMap<>();
+            resultMap.put("result",paymentRes);
+            response=new ResponseEntity<>(resultMap, HttpStatus.OK);
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            throw new IncorrectPaymentException(e.getMessage());
+        }
+
+        return response;
+    }
 }
 
