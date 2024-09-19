@@ -236,11 +236,6 @@ public class Controller {
         return response;
     }
 
-//    {
-//        "start_date": "02.02.2024 07:05:08",
-//            "end_date": "02.02.2024 18:05:08",
-//            "organization_BIN": "123456789013"
-//    }
     @PostMapping("/get-payments-by-date")
     public ResponseEntity<Map> getPaymentsByDate(@RequestBody Map<String,Object> request){
         ResponseEntity<Map> response=null;

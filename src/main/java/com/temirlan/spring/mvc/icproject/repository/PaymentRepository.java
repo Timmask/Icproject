@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface PaymentRepository extends JpaRepository<Payment,Integer> {
     public List<Payment> deleteAllByPaymentOrderUid(String paymentOrderUid);
-    public Payment deletePaymentByPaymentOrderUid(String paymentOrderUid);
     public List<Payment> findAllByPaymentOrderUid(String paymentOrderUid);
     public List<Payment> findAllByPaymentOrderDateAfterAndPaymentOrderDateBeforeAndOrganizationBin(String startDate,String endDate,String organizationBin);
 }
