@@ -212,6 +212,11 @@ public class InvoiceServiceImp implements InvoiceService {
         return list;
     }
 
+    @Override
+    public List<Payment> getPaymentsByStartEndDate(String startDate, String endDate, String organizationBin) {
+        return paymentRepository.findAllByPaymentOrderDateAfterAndPaymentOrderDateBeforeAndOrganizationBin(startDate,endDate,organizationBin);
+    }
+
     @Transactional
     public Map<String, Object> getDealFields() {
         return communication.getDealFields();

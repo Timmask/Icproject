@@ -32,4 +32,5 @@ public interface InvoiceService {
     public Payment savePayment(Payment payment);
     public List<Payment> deletePayment(Map<String,Object> paymentUid);
     public List<Payment> getPayments(List<Map<String,Object>> paymentUidList);
+    public List<Payment> getPaymentsByStartEndDate(String startDate,String endDate,String organizationBin);
 }
