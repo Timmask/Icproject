@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -172,46 +173,47 @@ public class Controller {
     }
 
 
-
     @PostMapping("/payments")
-    public ResponseEntity<Map> addPayments(@RequestBody Payment payment){
-        ResponseEntity<Map> response=null;
+    public ResponseEntity<Map> addPayments(@RequestBody Payment payment) {
+        ResponseEntity<Map> response = null;
         try {
-            Payment paymentRes= invoiceService.savePayment(payment);
-            Map<String,Object> resultMap=new HashMap<>();
-            resultMap.put("result",paymentRes);
-            response=new ResponseEntity<>(resultMap, HttpStatus.OK);
-        }catch (Exception e){
+            Payment paymentRes = invoiceService.savePayment(payment);
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("result", paymentRes);
+            response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             throw new IncorrectPaymentException(e.getMessage());
         }
 
         return response;
     }
+
     @PutMapping("/payments")
-    public ResponseEntity<Map> putPayments(@RequestBody Payment payment){
-        ResponseEntity<Map> response=null;
+    public ResponseEntity<Map> putPayments(@RequestBody Payment payment) {
+        ResponseEntity<Map> response = null;
         try {
-            Payment paymentRes= invoiceService.savePayment(payment);
-            Map<String,Object> resultMap=new HashMap<>();
-            resultMap.put("result",paymentRes);
-            response=new ResponseEntity<>(resultMap, HttpStatus.OK);
-        }catch (Exception e){
+            Payment paymentRes = invoiceService.savePayment(payment);
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("result", paymentRes);
+            response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             throw new IncorrectPaymentException(e.getMessage());
         }
 
         return response;
     }
+
     @DeleteMapping("/payments")
-    public ResponseEntity<Map> deletePayments(@RequestBody Map<String,Object> paymentUid){
-        ResponseEntity<Map> response=null;
+    public ResponseEntity<Map> deletePayments(@RequestBody Map<String, Object> paymentUid) {
+        ResponseEntity<Map> response = null;
         try {
-            List<Payment> paymentRes= invoiceService.deletePayment(paymentUid);
-            Map<String,Object> resultMap=new HashMap<>();
-            resultMap.put("result",paymentRes);
-            response=new ResponseEntity<>(resultMap, HttpStatus.OK);
-        }catch (Exception e){
+            List<Payment> paymentRes = invoiceService.deletePayment(paymentUid);
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("result", paymentRes);
+            response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             throw new IncorrectPaymentException(e.getMessage());
         }
@@ -221,14 +223,14 @@ public class Controller {
 
 
     @PostMapping("/get-payments")
-    public ResponseEntity<Map> getPayments(@RequestBody List<Map<String,Object>> paymentUidList){
-        ResponseEntity<Map> response=null;
+    public ResponseEntity<Map> getPayments(@RequestBody List<Map<String, Object>> paymentUidList) {
+        ResponseEntity<Map> response = null;
         try {
-            List<Payment> paymentRes= invoiceService.getPayments(paymentUidList);
-            Map<String,Object> resultMap=new HashMap<>();
-            resultMap.put("result",paymentRes);
-            response=new ResponseEntity<>(resultMap, HttpStatus.OK);
-        }catch (Exception e){
+            List<Payment> paymentRes = invoiceService.getPayments(paymentUidList);
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("result", paymentRes);
+            response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             throw new IncorrectPaymentException(e.getMessage());
         }
@@ -237,14 +239,14 @@ public class Controller {
     }
 
     @PostMapping("/get-payments-by-date")
-    public ResponseEntity<Map> getPaymentsByDate(@RequestBody Map<String,Object> request){
-        ResponseEntity<Map> response=null;
+    public ResponseEntity<Map> getPaymentsByDate(@RequestBody Map<String, Object> request) {
+        ResponseEntity<Map> response = null;
         try {
-            List<Payment> paymentRes= invoiceService.getPaymentsByStartEndDate(request.get("start_date").toString(),request.get("end_date").toString(),request.get("organization_BIN").toString());
-            Map<String,Object> resultMap=new HashMap<>();
-            resultMap.put("result",paymentRes);
-            response=new ResponseEntity<>(resultMap, HttpStatus.OK);
-        }catch (Exception e){
+            List<Payment> paymentRes = invoiceService.getPaymentsByStartEndDate(request.get("start_date").toString(), request.get("end_date").toString(), request.get("organization_BIN").toString());
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("result", paymentRes);
+            response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             throw new IncorrectPaymentException(e.getMessage());
         }
