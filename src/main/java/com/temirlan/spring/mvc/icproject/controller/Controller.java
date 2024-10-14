@@ -177,6 +177,7 @@ public class Controller {
     public ResponseEntity<Map> addPayments(@RequestBody Payment payment) {
         ResponseEntity<Map> response = null;
         try {
+            invoiceService.deletePaymentsByUid(payment);
             Payment paymentRes = invoiceService.savePayment(payment);
             Map<String, Object> resultMap = new HashMap<>();
             resultMap.put("result", paymentRes);

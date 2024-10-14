@@ -33,4 +33,5 @@ public interface InvoiceService {
     public List<Payment> deletePayment(Map<String,Object> paymentUid);
     public List<Payment> getPayments(List<Map<String,Object>> paymentUidList);
     public List<Payment> getPaymentsByStartEndDate(String startDate,String endDate,String organizationBin);
+    public List<Payment> deletePaymentsByUid(Payment paymentUids);
 }

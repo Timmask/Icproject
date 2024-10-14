@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
+
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -55,7 +56,7 @@ public class InvoiceServiceImp implements InvoiceService {
 
     @Transactional
     public Map createInvoice(String message) throws HttpServerErrorException {
-        HashMap<String,Object> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         String id = operations.extractId(message);
         Map<String, Object> deal = communication.getDealById(id);
         Map<String, Object> dealres = (Map<String, Object>) deal.get("result");
@@ -67,21 +68,21 @@ public class InvoiceServiceImp implements InvoiceService {
             System.err.println(companiesMap.get(dealCompany));
             Consignor consignor = null;
             Consignee consignee = null;
-            Service service=null;
-            try{
-                service= jdbcRepository.getServiceInfo(id);
-                consignor=jdbcRepository.getConsignorInfo(id);
-                consignee=jdbcRepository.getConsigneeInfo(id);
-            }catch (Exception e){
-                String serviceName=jdbcRepository.getDealService(dealres.get("UF_CRM_1724236125").toString());
-                String description=serviceName +" \n " +dealres.get("UF_CRM_1725356067981").toString() + " за "+ operations.getCalendarMonth(dealres.get("UF_CRM_1711371065591").toString());
-                String isNds= dealres.get("UF_CRM_1708595011927").toString().equals("28039") ? "НДС": "без НДС";
-                service=new Service(dealres.get("UF_CRM_1724236242").toString()
-                        ,dealres.get("UF_CRM_1709622025399").toString()
-                        ,dealres.get("UF_CRM_1707724024179").toString()
-                        ,description,isNds,serviceName);
-                consignee=new Consignee(dealres.get("UF_CRM_1707149878937").toString(),dealres.get("UF_CRM_1707119819982").toString());
-                consignor=new Consignor(dealres.get("UF_CRM_1707120091678").toString(),dealres.get("UF_CRM_1723444589386").toString());
+            Service service = null;
+            try {
+                service = jdbcRepository.getServiceInfo(id);
+                consignor = jdbcRepository.getConsignorInfo(id);
+                consignee = jdbcRepository.getConsigneeInfo(id);
+            } catch (Exception e) {
+                String serviceName = jdbcRepository.getDealService(dealres.get("UF_CRM_1724236125").toString());
+                String description = serviceName + " \n " + dealres.get("UF_CRM_1725356067981").toString() + " за " + operations.getCalendarMonth(dealres.get("UF_CRM_1711371065591").toString());
+                String isNds = dealres.get("UF_CRM_1708595011927").toString().equals("28039") ? "НДС" : "без НДС";
+                service = new Service(dealres.get("UF_CRM_1724236242").toString()
+                        , dealres.get("UF_CRM_1709622025399").toString()
+                        , dealres.get("UF_CRM_1707724024179").toString()
+                        , description, isNds, serviceName);
+                consignee = new Consignee(dealres.get("UF_CRM_1707149878937").toString(), dealres.get("UF_CRM_1707119819982").toString());
+                consignor = new Consignor(dealres.get("UF_CRM_1707120091678").toString(), dealres.get("UF_CRM_1723444589386").toString());
             }
 
             serviceRepository.save(service);
@@ -94,7 +95,6 @@ public class InvoiceServiceImp implements InvoiceService {
         }
         return map;
     }
-
 
 
     @Transactional
@@ -199,14 +199,14 @@ public class InvoiceServiceImp implements InvoiceService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public List<Payment> deletePayment(Map<String,Object> paymentUid) {
+    public List<Payment> deletePayment(Map<String, Object> paymentUid) {
         return paymentRepository.deleteAllByPaymentOrderUid(paymentUid.get("paymentOrderUID").toString());
     }
 
     @Override
     public List<Payment> getPayments(List<Map<String, Object>> paymentUidList) {
-        List<Payment> list=new ArrayList<>();
-        for(Map paymentUid:paymentUidList){
+        List<Payment> list = new ArrayList<>();
+        for (Map paymentUid : paymentUidList) {
             list.addAll(paymentRepository.findAllByPaymentOrderUid(paymentUid.get("paymentOrderUID").toString()));
         }
         return list;
@@ -214,7 +214,13 @@ public class InvoiceServiceImp implements InvoiceService {
 
     @Override
     public List<Payment> getPaymentsByStartEndDate(String startDate, String endDate, String organizationBin) {
-        return paymentRepository.findAllByPaymentOrderDateAfterAndPaymentOrderDateBeforeAndOrganizationBin(startDate,endDate,organizationBin);
+        return paymentRepository.findAllByPaymentOrderDateAfterAndPaymentOrderDateBeforeAndOrganizationBin(startDate, endDate, organizationBin);
+    }
+
+    @Transactional
+    @Override
+    public List<Payment> deletePaymentsByUid(Payment paymentUid) {
+        return paymentRepository.deletePaymentsByPaymentOrderUid(paymentUid.getPaymentOrderUid());
     }
 
     @Transactional
