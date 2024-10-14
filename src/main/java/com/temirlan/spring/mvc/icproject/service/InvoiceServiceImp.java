@@ -54,7 +54,7 @@ public class InvoiceServiceImp implements InvoiceService {
     @Autowired
     private PaymentRepository paymentRepository;
 
-    @Transactional
+
     public Map createInvoice(String message) throws HttpServerErrorException {
         HashMap<String, Object> map = new HashMap<>();
         String id = operations.extractId(message);
@@ -252,22 +252,6 @@ public class InvoiceServiceImp implements InvoiceService {
     @Transactional
     public void saveDeal(Deal deal) {
         dealRepository.save(deal);
-    }
-
-    @Transactional
-    public List<ImplementationBi> getImplementationsList(Integer count) {
-        return jdbcRepository.getAllImplementation(count);
-    }
-
-    @Transactional
-    public List<PayrollFundBi> getPayrollFundList(Integer count) {
-        return jdbcRepository.getPayrollFundList(count);
-    }
-
-    @Transactional
-    @Override
-    public List<InvoiceBi> getInvoicesList(Integer count) {
-        return jdbcRepository.getInvoicesList(count);
     }
 
     @Override

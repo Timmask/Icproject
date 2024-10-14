@@ -19,9 +19,6 @@ public interface InvoiceService {
     public void saveAccounting(Accounting accounting);
     public void saveBankPayment(ArrayList<BankPayment> bankPayment);
     public CompletableFuture<Void> deteleBankPayments(ArrayList<BankPayment> bankPayment);
-    public List<ImplementationBi> getImplementationsList(Integer count);
-    public List<PayrollFundBi> getPayrollFundList(Integer count );
-    public List<InvoiceBi> getInvoicesList(Integer count);
     public  CompletableFuture<List<BankPayment>> deleteBankPaymentByUids(List<Map> bankPaymentUids);
     public void deleteBankPaymentsByUid(String bankPaymentUid);
     public String getDeal(String message);

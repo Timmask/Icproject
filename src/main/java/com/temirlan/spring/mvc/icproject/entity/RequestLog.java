@@ -11,7 +11,7 @@ import org.hibernate.annotations.ColumnTransformer;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name="test_request_log",schema = "log")
+@Table(name="test_request_log")
 public class RequestLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class RequestLog {
     @Column(name="method")
     private String method;
 
-    @ColumnTransformer(write = "COALESCE (? , dateadd(hour, 5,CURRENT_TIMESTAMP))")
+    @ColumnTransformer(write = "COALESCE (? , DATE_ADD(NOW(), INTERVAL 2 HOUR))")
     @Column(name="time_stamp")
     private String timeStamp;
 
