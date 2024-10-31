@@ -22,7 +22,6 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequestMapping("/api")
 public class Controller {
-    private static final Logger log = LoggerFactory.getLogger(Controller.class);
     @Autowired
     private InvoiceService invoiceService;
 
@@ -45,7 +44,6 @@ public class Controller {
 
     @PostMapping("/get-deal")
     public String getDeal(@RequestBody String message) {
-
         return invoiceService.getDeal(message);
     }
 
@@ -253,5 +251,64 @@ public class Controller {
 
         return response;
     }
+
+    @PostMapping("/payments-of-ip")
+    public ResponseEntity<Map> addPaymentsOfIp(@RequestBody PaymentsOfIp request) {
+        ResponseEntity<Map> response = null;
+        PaymentsOfIp paymentsOfIp = invoiceService.addPaymentsOfIp(request);
+        Map<String, PaymentsOfIp> resultMap = new HashMap<>();
+        resultMap.put("result", paymentsOfIp);
+        response=new ResponseEntity<>(resultMap,HttpStatus.OK);
+        return response;
+    }
+
+    @DeleteMapping("/payments-of-ip")
+    public ResponseEntity<Map> daletePaymentsOfIp(@RequestBody  Map<String, Object> paymentUid) {
+        ResponseEntity<Map> response = null;
+       List<PaymentsOfIp> payments = invoiceService.deletePaymentsOfIp(paymentUid);
+        Map<String, List<PaymentsOfIp>> resultMap = new HashMap<>();
+        resultMap.put("result", payments);
+        response=new ResponseEntity<>(resultMap,HttpStatus.OK);
+        return response;
+    }
+    @PutMapping("/payments-of-ip")
+    public ResponseEntity<Map> updatePaymentsOfIp(@RequestBody PaymentsOfIp request) {
+        ResponseEntity<Map> response = null;
+        PaymentsOfIp paymentsOfIp = invoiceService.updatePaymentsOfIp(request);
+        Map<String, PaymentsOfIp> resultMap = new HashMap<>();
+        resultMap.put("result", paymentsOfIp);
+        response=new ResponseEntity<>(resultMap,HttpStatus.OK);
+        return response;
+    }
+
+    @PostMapping("/cash-order")
+    public ResponseEntity<Map> addCashOrder(@RequestBody CashOrder request) {
+        ResponseEntity<Map> response = null;
+        CashOrder cashOrder = invoiceService.addCashOrder(request);
+        Map<String, CashOrder> resultMap = new HashMap<>();
+        resultMap.put("result", cashOrder);
+        response=new ResponseEntity<>(resultMap,HttpStatus.OK);
+        return response;
+    }
+    @DeleteMapping("/cash-order")
+    public ResponseEntity<Map> daleteCashOrder(@RequestBody  Map<String, Object> paymentUid) {
+        ResponseEntity<Map> response = null;
+        List<CashOrder> cashOrders = invoiceService.deleteCashOrder(paymentUid);
+        Map<String,List> resultMap = new HashMap<>();
+        resultMap.put("result", cashOrders);
+        response=new ResponseEntity<>(resultMap,HttpStatus.OK);
+        return response;
+    }
+    @PutMapping("/cash-order")
+    public ResponseEntity<Map> updateCashOrder(@RequestBody CashOrder request) {
+        ResponseEntity<Map> response = null;
+        CashOrder cashOrder = invoiceService.updateCashOrder(request);
+        Map<String, CashOrder> resultMap = new HashMap<>();
+        resultMap.put("result", cashOrder);
+        response=new ResponseEntity<>(resultMap,HttpStatus.OK);
+        return response;
+    }
+
+
 }
 

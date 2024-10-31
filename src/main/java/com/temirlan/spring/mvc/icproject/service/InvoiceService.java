@@ -1,9 +1,6 @@
 package com.temirlan.spring.mvc.icproject.service;
 
-import com.temirlan.spring.mvc.icproject.entity.Accounting;
-import com.temirlan.spring.mvc.icproject.entity.BankPayment;
-import com.temirlan.spring.mvc.icproject.entity.Payment;
-import com.temirlan.spring.mvc.icproject.entity.PlannedPayment;
+import com.temirlan.spring.mvc.icproject.entity.*;
 import com.temirlan.spring.mvc.icproject.pojo.ImplementationBi;
 import com.temirlan.spring.mvc.icproject.pojo.InvoiceBi;
 import com.temirlan.spring.mvc.icproject.pojo.PayrollFundBi;
@@ -31,4 +28,11 @@ public interface InvoiceService {
     public List<Payment> getPayments(List<Map<String,Object>> paymentUidList);
     public List<Payment> getPaymentsByStartEndDate(String startDate,String endDate,String organizationBin);
     public List<Payment> deletePaymentsByUid(Payment paymentUids);
+    public PaymentsOfIp addPaymentsOfIp(PaymentsOfIp paymentsOfIp);
+    public List<PaymentsOfIp> deletePaymentsOfIp(Map<String,Object> paymentUid);
+    public PaymentsOfIp updatePaymentsOfIp(PaymentsOfIp paymentsOfIp);
+
+    public CashOrder addCashOrder(CashOrder cashOrder);
+    public List<CashOrder> deleteCashOrder(Map<String,Object> paymentUid);
+    public CashOrder updateCashOrder(CashOrder cashOrder);
 }

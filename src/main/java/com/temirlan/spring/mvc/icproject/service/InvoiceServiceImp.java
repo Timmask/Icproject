@@ -54,6 +54,11 @@ public class InvoiceServiceImp implements InvoiceService {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Autowired
+    private PaymentsOfIPRepository paymentsOfIPRepository;
+
+    @Autowired
+    private CashOrderRepository cashOrderRepository;
 
     public Map createInvoice(String message) throws HttpServerErrorException {
         HashMap<String, Object> map = new HashMap<>();
@@ -223,6 +228,7 @@ public class InvoiceServiceImp implements InvoiceService {
         return paymentRepository.deletePaymentsByPaymentOrderUid(paymentUid.getPaymentOrderUid());
     }
 
+
     @Transactional
     public Map<String, Object> getDealFields() {
         return communication.getDealFields();
@@ -272,6 +278,46 @@ public class InvoiceServiceImp implements InvoiceService {
     @Override
     public void deleteBankPaymentsByUid(String bankPaymentUid) {
         bankPaymentRepository.deleteBankPaymentsByBankStatementUid(bankPaymentUid);
+    }
+
+
+    @Transactional
+    @Override
+    public PaymentsOfIp addPaymentsOfIp(PaymentsOfIp paymentsOfIp) {
+        paymentsOfIPRepository.deleteAllByPaymentOrderUid(paymentsOfIp.getPaymentOrderUid());
+        return paymentsOfIPRepository.save(paymentsOfIp);
+    }
+
+    @Transactional
+    @Override
+    public List<PaymentsOfIp> deletePaymentsOfIp(Map<String, Object> paymentUid) {
+        return paymentsOfIPRepository.deleteAllByPaymentOrderUid(paymentUid.get("paymentOrderUID").toString());
+
+    }
+
+    @Transactional
+    @Override
+    public PaymentsOfIp updatePaymentsOfIp(PaymentsOfIp paymentsOfIp) {
+        paymentsOfIPRepository.deleteAllByPaymentOrderUid(paymentsOfIp.getPaymentOrderUid());
+        return paymentsOfIPRepository.save(paymentsOfIp);
+    }
+    @Transactional
+    @Override
+    public CashOrder addCashOrder(CashOrder cashOrder) {
+        System.out.println(cashOrder);
+//        cashOrderRepository.deleteAllByPaymentOrderUid(cashOrder.getPaymentOrderUid());
+        return cashOrderRepository.save(cashOrder);
+    }
+    @Transactional
+    @Override
+    public List<CashOrder> deleteCashOrder(Map<String, Object> paymentUid) {
+        return cashOrderRepository.deleteCashOrdersByPaymentOrderUid(paymentUid.get("paymentOrderUID").toString());
+    }
+    @Transactional
+    @Override
+    public CashOrder updateCashOrder(CashOrder cashOrder) {
+        cashOrderRepository.deleteCashOrdersByPaymentOrderUid(cashOrder.getPaymentOrderUid());
+        return cashOrderRepository.save(cashOrder);
     }
 
 
