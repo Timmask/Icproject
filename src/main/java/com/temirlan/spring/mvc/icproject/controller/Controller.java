@@ -284,6 +284,9 @@ public class Controller {
     @PostMapping("/cash-order")
     public ResponseEntity<Map> addCashOrder(@RequestBody CashOrder request) {
         ResponseEntity<Map> response = null;
+        Map<String, Object> map = new HashMap<>();
+        map.put("paymentOrderUID", request.getPaymentOrderUid());
+        List<CashOrder> cashOrders = invoiceService.deleteCashOrder(map);
         CashOrder cashOrder = invoiceService.addCashOrder(request);
         Map<String, CashOrder> resultMap = new HashMap<>();
         resultMap.put("result", cashOrder);
